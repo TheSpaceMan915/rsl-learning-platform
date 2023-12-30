@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Embeddable

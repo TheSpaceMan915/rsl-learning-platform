@@ -15,33 +15,20 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "person_module_progress")
-public class PersonModuleProgress {
+public class PersonModuleProgress extends Progress {
 
     @EmbeddedId
     private PersonModuleProgressId id;
 
-    @MapsId("personId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id")
-    @ToString.Exclude
-    private Person person;
-
     @MapsId("moduleId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "module_id")
+    @JoinColumn(name = "module_id", nullable = false)
     @ToString.Exclude
     private Module module;
 
-    @MapsId("statusId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    @ToString.Exclude
-    private Status status;
-
     public PersonModuleProgress(Person person, Module module, Status status) {
+        super(person, status);
         this.id = new PersonModuleProgressId(person.getId(), module.getId(), status.getId());
-        this.person = person;
         this.module = module;
-        this.status = status;
     }
 }

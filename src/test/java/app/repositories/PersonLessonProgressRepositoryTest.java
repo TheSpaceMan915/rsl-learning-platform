@@ -1,7 +1,6 @@
 package app.repositories;
 
 import app.entities.progress.ids.PersonLessonProgressId;
-
 import app.entities.platform.Lesson;
 import app.entities.platform.Person;
 import app.entities.platform.Status;

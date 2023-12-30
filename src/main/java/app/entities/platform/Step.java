@@ -1,15 +1,16 @@
 package app.entities.platform;
 
-import app.entities.platform.Lesson;
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "step")
 public class Step {
@@ -23,7 +24,8 @@ public class Step {
     private String contentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id")
+    @JoinColumn(name = "lesson_id", nullable = false)
+    @ToString.Exclude
     private Lesson lesson;
 
     public Step(String contentId) {

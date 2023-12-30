@@ -15,33 +15,20 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "person_step_progress")
-public class PersonStepProgress {
+public class PersonStepProgress extends Progress {
 
     @EmbeddedId
     private PersonStepProgressId id;
 
-    @MapsId("personId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id")
-    @ToString.Exclude
-    private Person person;
-
     @MapsId("stepId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "step_id")
+    @JoinColumn(name = "step_id", nullable = false)
     @ToString.Exclude
     private Step step;
 
-    @MapsId("statusId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
-    @ToString.Exclude
-    private Status status;
-
     public PersonStepProgress(Person person, Step step, Status status) {
+        super(person, status);
         this.id = new PersonStepProgressId(person.getId(), step.getId(), status.getId());
-        this.person = person;
         this.step = step;
-        this.status = status;
     }
 }

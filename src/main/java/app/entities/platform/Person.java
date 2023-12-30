@@ -2,6 +2,8 @@ package app.entities.platform;
 
 import app.entities.progress.PersonLessonProgress;
 import app.entities.progress.PersonModuleProgress;
+import app.entities.progress.PersonStepProgress;
+
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -26,13 +28,13 @@ public class Person {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "access_token")
+    @Column(name = "access_token", nullable = false)
     private String accessToken;
 
-    @Column(name = "refresh_token")
+    @Column(name = "refresh_token", nullable = false)
     private String refreshToken;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
     @ToString.Exclude
@@ -43,9 +45,9 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PersonLessonProgress> lessonProgresses = new ArrayList<>();
 
-//    @ToString.Exclude
-//    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<PersonStepProgress> stepProgresses = new ArrayList<>();
+    @ToString.Exclude
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PersonStepProgress> stepProgresses = new ArrayList<>();
 
     public Person(String accessToken, String refreshToken, Timestamp createdAt) {
         this.accessToken = accessToken;
@@ -73,5 +75,13 @@ public class Person {
         progress.setPerson(null);
     }
 
+    public void addStepProgress(PersonStepProgress progress) {
+        stepProgresses.add(progress);
+        progress.setPerson(this);
+    }
 
+    public void removeStepProgress(PersonStepProgress progress) {
+        stepProgresses.remove(progress);
+        progress.setPerson(null);
+    }
 }

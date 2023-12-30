@@ -4,6 +4,7 @@ import app.entities.platform.*;
 import app.entities.platform.Module;
 import app.entities.progress.PersonLessonProgress;
 import app.entities.progress.PersonModuleProgress;
+import app.entities.progress.PersonStepProgress;
 import app.repositories.*;
 
 import org.springframework.boot.CommandLineRunner;
@@ -19,17 +20,20 @@ public class DataLoader implements CommandLineRunner {
     private final ModuleRepository moduleRepo;
     private final PersonModuleProgressRepository moduleProgressRepo;
     private final PersonLessonProgressRepository lessonProgressRepo;
+    private final PersonStepProgressRepository stepProgressRepo;
 
     public DataLoader(PersonRepository personRepo,
                       StatusRepository statusRepo,
                       ModuleRepository moduleRepo,
                       PersonModuleProgressRepository moduleProgressRepo,
-                      PersonLessonProgressRepository lessonProgressRepo) {
+                      PersonLessonProgressRepository lessonProgressRepo,
+                      PersonStepProgressRepository stepProgressRepo) {
         this.personRepo = personRepo;
         this.statusRepo = statusRepo;
         this.moduleRepo = moduleRepo;
         this.moduleProgressRepo = moduleProgressRepo;
         this.lessonProgressRepo = lessonProgressRepo;
+        this.stepProgressRepo = stepProgressRepo;
     }
 
     @Override
@@ -58,5 +62,9 @@ public class DataLoader implements CommandLineRunner {
         PersonLessonProgress lessonProgress =
                 new PersonLessonProgress(person, lesson, completed);
         lessonProgress = lessonProgressRepo.save(lessonProgress);
+
+        PersonStepProgress stepProgress =
+                new PersonStepProgress(person, step, completed);
+        stepProgress = stepProgressRepo.save(stepProgress);
     }
 }

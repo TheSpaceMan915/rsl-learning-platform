@@ -20,11 +20,8 @@ public class Status {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-
-//    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<UserModuleProgress> moduleProgresses = new ArrayList<>();
 
     public Status(String name) {
         this.name = name;

@@ -1,6 +1,5 @@
 package app.entities.platform;
 
-import app.entities.platform.Lesson;
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -30,9 +29,6 @@ public class Module {
     @ToString.Exclude
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<PersonModuleProgress> personProgresses = new ArrayList<>();
 
     public Module(String contentId) {
         this.contentId = contentId;

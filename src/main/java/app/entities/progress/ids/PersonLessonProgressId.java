@@ -15,13 +15,13 @@ import java.util.Objects;
 @Embeddable
 public class PersonLessonProgressId implements Serializable {
 
-    @Column(name = "person_id")
+    @Column(name = "person_id", nullable = false)
     private Long personId;
 
-    @Column(name = "lesson_id")
+    @Column(name = "lesson_id", nullable = false)
     private Long lessonId;
 
-    @Column(name = "status_id")
+    @Column(name = "status_id", nullable = false)
     private Long statusId;
 
     @Override

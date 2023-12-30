@@ -2,8 +2,8 @@ package app.repositories;
 
 import app.entities.platform.Module;
 import app.entities.platform.Person;
-import app.entities.progress.PersonModuleProgress;
 import app.entities.platform.Status;
+import app.entities.progress.PersonModuleProgress;
 import app.entities.progress.ids.PersonModuleProgressId;
 
 import lombok.extern.slf4j.Slf4j;
