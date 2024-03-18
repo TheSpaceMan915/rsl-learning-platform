@@ -1,6 +1,6 @@
 package app.repositories;
 
-import app.entities.platform.Step;
+import app.domain.Step;
 
 import org.springframework.data.repository.CrudRepository;
 

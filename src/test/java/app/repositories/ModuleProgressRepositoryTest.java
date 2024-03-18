@@ -1,10 +1,10 @@
 package app.repositories;
 
-import app.entities.platform.Person;
-import app.entities.platform.Status;
-import app.entities.platform.Step;
-import app.entities.progress.PersonStepProgress;
-import app.entities.progress.ids.PersonStepProgressId;
+import app.domain.Module;
+import app.domain.Person;
+import app.domain.Status;
+import app.domain.progress.ModuleProgress;
+import app.domain.progress.ids.ModuleProgressId;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-public class PersonStepProgressRepositoryTest {
+public class ModuleProgressRepositoryTest {
 
     @Autowired
     private PersonRepository personRepo;
@@ -25,26 +25,26 @@ public class PersonStepProgressRepositoryTest {
     private StatusRepository statusRepo;
 
     @Autowired
-    private StepRepository stepRepo;
+    private ModuleRepository moduleRepo;
 
     @Autowired
-    private PersonStepProgressRepository progressRepo;
+    private ModuleProgressRepository progressRepo;
 
-    private PersonStepProgress createProgress() {
+    private ModuleProgress createProgress() {
         log.info("----------------------- CREATE -------------------------");
-        log.info("CREATING STEP PROGRESS");
+        log.info("CREATING MODULE PROGRESS");
         Person person = personRepo.findById(1L).orElseThrow();
         Status available = statusRepo.findById(2L).orElseThrow();
-        Step step = stepRepo.findById(1L).orElseThrow();
+        Module module = moduleRepo.findById(1L).orElseThrow();
         assertThat(person.getId()).isNotNull();
-        assertThat(step.getId()).isNotNull();
+        assertThat(module.getId()).isNotNull();
         assertThat(available.getId()).isNotNull();
         log.info("person: {}", person);
         log.info("available: {}", available);
-        log.info("step: {}", step);
+        log.info("module: {}", module);
 
-        PersonStepProgress created =
-                new PersonStepProgress(person, step, available);
+        ModuleProgress created =
+                new ModuleProgress(person, module, available);
         log.info("created: {}", created);
         log.info("----------------------- END CREATE -------------------------");
         return created;
@@ -54,19 +54,19 @@ public class PersonStepProgressRepositoryTest {
     @Transactional
     public void findAllProgressesByPerson() {
         log.info("----------------------- FIND -------------------------");
-        log.info("FINDING STEP PROGRESSES BY PERSON");
+        log.info("FINDING MODULE PROGRESSES BY PERSON");
         Person person = personRepo.findById(1L).orElseThrow();
+        Iterable<ModuleProgress> progresses =
+                person.getModuleProgresses();
         assertThat(person.getId()).isNotNull();
-        Iterable<PersonStepProgress> progresses =
-                person.getStepProgresses();
         assertThat(progresses).isNotEmpty();
     }
 
     @Test
     public void saveProgress() {
         log.info("----------------------- SAVE -------------------------");
-        log.info("SAVING STEP PROGRESS");
-        PersonStepProgress saved = progressRepo.save(createProgress());
+        log.info("SAVING MODULE PROGRESS");
+        ModuleProgress saved = progressRepo.save(createProgress());
         log.info("saved: {}", saved);
         assertThat(saved.getId()).isNotNull();
     }
@@ -74,12 +74,12 @@ public class PersonStepProgressRepositoryTest {
     @Test
     public void deleteProgress() {
         log.info("----------------------- DELETE -------------------------");
-        log.info("DELETING STEP PROGRESS");
-        PersonStepProgress created = createProgress();
+        log.info("DELETING MODULE PROGRESS");
+        ModuleProgress created = createProgress();
         progressRepo.deleteById(created.getId());
-        PersonStepProgress deleted = progressRepo
-                .findById(created.getId())
-                .orElse(null);
+        ModuleProgress deleted = progressRepo
+                        .findById(created.getId())
+                        .orElse(null);
         log.info("deleted: {}", deleted);
         assertThat(deleted).isNull();
     }
@@ -88,21 +88,21 @@ public class PersonStepProgressRepositoryTest {
     @Transactional
     public void deletePersonProgress() {
         log.info("----------------------- DELETE -------------------------");
-        log.info("DELETING PERSON STEP PROGRESS");
+        log.info("DELETING PERSON MODULE PROGRESS");
         Person person = personRepo.findById(1L).orElseThrow();
-        PersonStepProgress progress = progressRepo
-                .findById(new PersonStepProgressId(1L, 1L, 3L))
-                .orElseThrow();
+        ModuleProgress progress = progressRepo
+                        .findById(new ModuleProgressId(1L, 1L, 3L))
+                        .orElseThrow();
         log.info("person: {}", person);
         log.info("progress: {}", progress);
         assertThat(person.getId()).isNotNull();
         assertThat(progress.getId()).isNotNull();
 
-        person.removeStepProgress(progress);
+        person.removeModuleProgress(progress);
         person = personRepo.save(person);
         person = personRepo.findById(1L).orElseThrow();
-        Iterable<PersonStepProgress> progresses =
-                person.getStepProgresses();
+        Iterable<ModuleProgress> progresses =
+                person.getModuleProgresses();
         assertThat(progresses).isEmpty();
     }
 }

@@ -1,6 +1,6 @@
 package app.repositories;
 
-import app.entities.platform.Module;
+import app.domain.Module;
 
 import org.springframework.data.repository.CrudRepository;
 

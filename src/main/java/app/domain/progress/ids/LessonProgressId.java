@@ -1,4 +1,4 @@
-package app.entities.progress.ids;
+package app.domain.progress.ids;
 
 import jakarta.persistence.*;
 
@@ -13,7 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Embeddable
-public class PersonLessonProgressId implements Serializable {
+public class LessonProgressId implements Serializable {
 
     @Column(name = "person_id", nullable = false)
     private Long personId;
@@ -27,7 +27,7 @@ public class PersonLessonProgressId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PersonLessonProgressId that)) return false;
+        if (!(o instanceof LessonProgressId that)) return false;
         return Objects.equals(getPersonId(), that.getPersonId()) && Objects.equals(getLessonId(), that.getLessonId()) && Objects.equals(getStatusId(), that.getStatusId());
     }
 

@@ -1,4 +1,4 @@
-package app.entities.platform;
+package app.domain;
 
 import jakarta.persistence.*;
 

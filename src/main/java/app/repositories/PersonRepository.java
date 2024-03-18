@@ -1,6 +1,6 @@
 package app.repositories;
 
-import app.entities.platform.Person;
+import app.domain.Person;
 
 import org.springframework.data.repository.CrudRepository;
 

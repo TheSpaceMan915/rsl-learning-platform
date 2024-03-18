@@ -1,8 +1,8 @@
-package app.entities.platform;
+package app.domain;
 
-import app.entities.progress.PersonLessonProgress;
-import app.entities.progress.PersonModuleProgress;
-import app.entities.progress.PersonStepProgress;
+import app.domain.progress.LessonProgress;
+import app.domain.progress.ModuleProgress;
+import app.domain.progress.StepProgress;
 
 import jakarta.persistence.*;
 
@@ -39,15 +39,15 @@ public class Person {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonModuleProgress> moduleProgresses = new ArrayList<>();
+    private List<ModuleProgress> moduleProgresses = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonLessonProgress> lessonProgresses = new ArrayList<>();
+    private List<LessonProgress> lessonProgresses = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonStepProgress> stepProgresses = new ArrayList<>();
+    private List<StepProgress> stepProgresses = new ArrayList<>();
 
     public Person(String accessToken, String refreshToken, Timestamp createdAt) {
         this.accessToken = accessToken;
@@ -55,32 +55,32 @@ public class Person {
         this.createdAt = createdAt;
     }
 
-    public void addModuleProgress(PersonModuleProgress progress) {
+    public void addModuleProgress(ModuleProgress progress) {
         moduleProgresses.add(progress);
         progress.setPerson(this);
     }
 
-    public void removeModuleProgress(PersonModuleProgress progress) {
+    public void removeModuleProgress(ModuleProgress progress) {
         moduleProgresses.remove(progress);
         progress.setPerson(null);
     }
 
-    public void addLessonProgress(PersonLessonProgress progress) {
+    public void addLessonProgress(LessonProgress progress) {
         lessonProgresses.add(progress);
         progress.setPerson(this);
     }
 
-    public void removeLessonProgress(PersonLessonProgress progress) {
+    public void removeLessonProgress(LessonProgress progress) {
         lessonProgresses.remove(progress);
         progress.setPerson(null);
     }
 
-    public void addStepProgress(PersonStepProgress progress) {
+    public void addStepProgress(StepProgress progress) {
         stepProgresses.add(progress);
         progress.setPerson(this);
     }
 
-    public void removeStepProgress(PersonStepProgress progress) {
+    public void removeStepProgress(StepProgress progress) {
         stepProgresses.remove(progress);
         progress.setPerson(null);
     }

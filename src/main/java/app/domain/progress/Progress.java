@@ -1,7 +1,7 @@
-package app.entities.progress;
+package app.domain.progress;
 
-import app.entities.platform.Person;
-import app.entities.platform.Status;
+import app.domain.Person;
+import app.domain.Status;
 
 import jakarta.persistence.*;
 

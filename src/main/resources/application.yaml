@@ -7,10 +7,6 @@ spring:
     password: 7421Crackers
     url: jdbc:postgresql://192.168.1.65:5432/rsl_learning_platform
 
-  data:
-    rest:
-      base-path: /data-api
-
   jpa:
     hibernate:
       ddl-auto: create-drop

@@ -1,10 +1,10 @@
 package app.components;
 
-import app.entities.platform.*;
-import app.entities.platform.Module;
-import app.entities.progress.PersonLessonProgress;
-import app.entities.progress.PersonModuleProgress;
-import app.entities.progress.PersonStepProgress;
+import app.domain.*;
+import app.domain.Module;
+import app.domain.progress.LessonProgress;
+import app.domain.progress.ModuleProgress;
+import app.domain.progress.StepProgress;
 import app.repositories.*;
 
 import org.springframework.boot.CommandLineRunner;
@@ -18,16 +18,16 @@ public class DataLoader implements CommandLineRunner {
     private final PersonRepository personRepo;
     private final StatusRepository statusRepo;
     private final ModuleRepository moduleRepo;
-    private final PersonModuleProgressRepository moduleProgressRepo;
-    private final PersonLessonProgressRepository lessonProgressRepo;
-    private final PersonStepProgressRepository stepProgressRepo;
+    private final ModuleProgressRepository moduleProgressRepo;
+    private final LessonProgressRepository lessonProgressRepo;
+    private final StepProgressRepository stepProgressRepo;
 
     public DataLoader(PersonRepository personRepo,
                       StatusRepository statusRepo,
                       ModuleRepository moduleRepo,
-                      PersonModuleProgressRepository moduleProgressRepo,
-                      PersonLessonProgressRepository lessonProgressRepo,
-                      PersonStepProgressRepository stepProgressRepo) {
+                      ModuleProgressRepository moduleProgressRepo,
+                      LessonProgressRepository lessonProgressRepo,
+                      StepProgressRepository stepProgressRepo) {
         this.personRepo = personRepo;
         this.statusRepo = statusRepo;
         this.moduleRepo = moduleRepo;
@@ -55,16 +55,16 @@ public class DataLoader implements CommandLineRunner {
         module.addLesson(lesson);
         module = moduleRepo.save(module);
 
-        PersonModuleProgress moduleProgress =
-                new PersonModuleProgress(person, module, completed);
+        ModuleProgress moduleProgress =
+                new ModuleProgress(person, module, completed);
         moduleProgress = moduleProgressRepo.save(moduleProgress);
 
-        PersonLessonProgress lessonProgress =
-                new PersonLessonProgress(person, lesson, completed);
+        LessonProgress lessonProgress =
+                new LessonProgress(person, lesson, completed);
         lessonProgress = lessonProgressRepo.save(lessonProgress);
 
-        PersonStepProgress stepProgress =
-                new PersonStepProgress(person, step, completed);
+        StepProgress stepProgress =
+                new StepProgress(person, step, completed);
         stepProgress = stepProgressRepo.save(stepProgress);
     }
 }
