@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +25,11 @@ import java.util.List;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "access_token", nullable = false)
-    private String accessToken;
-
-    @Column(name = "refresh_token", nullable = false)
-    private String refreshToken;
-
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    private Date createdAt = Date.valueOf(LocalDate.now());
 
     @ToString.Exclude
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -48,12 +42,6 @@ public class Person {
     @ToString.Exclude
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StepProgress> stepProgresses = new ArrayList<>();
-
-    public Person(String accessToken, String refreshToken, Timestamp createdAt) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.createdAt = createdAt;
-    }
 
     public void addModuleProgress(ModuleProgress progress) {
         moduleProgresses.add(progress);

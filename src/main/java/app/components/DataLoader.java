@@ -10,8 +10,7 @@ import app.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-
+// TODO: Delete DataLoader before deploying to the cloud
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -38,10 +37,8 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Person person = new Person(
-                "JKmfdv563gfv3",
-                "225sv",
-                Timestamp.valueOf("2023-04-22 14:32:00"));
+        Person person = new Person();
+        person.setId(1L);
         person = personRepo.save(person);
 
         Status blocked = statusRepo.save(new Status("Blocked"));
