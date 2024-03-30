@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.dtos.PersonDto;
+import app.dtos.PersonRequestDto;
 import app.services.PersonService;
 
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,8 @@ public class PersonController {
         this.personService = personService;
     }
 
-//    TODO: Add a refresh token as a parameter
     @GetMapping(path = "/{oauthToken}")
-    public ResponseEntity<PersonDto> getPerson(@PathVariable("oauthToken") String oauthToken) {
+    public ResponseEntity<PersonRequestDto> getPerson(@PathVariable("oauthToken") String oauthToken) {
         return personService.find(oauthToken);
     }
 }

@@ -1,7 +1,7 @@
 package app.mappers;
 
 import app.domain.Person;
-import app.dtos.PersonDto;
+import app.dtos.PersonRequestDto;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -11,10 +11,10 @@ public interface PersonMapper {
 
     PersonMapper MAPPER = Mappers.getMapper(PersonMapper.class);
 
-    Person toEntity(PersonDto personDto);
+    Person toEntity(PersonRequestDto personRequestDto);
 
-    PersonDto toDto(Person person);
+    PersonRequestDto toDto(Person person);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Person partialUpdate(PersonDto personDto, @MappingTarget Person person);
+    Person partialUpdate(PersonRequestDto personRequestDto, @MappingTarget Person person);
 }

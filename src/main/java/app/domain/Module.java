@@ -2,10 +2,7 @@ package app.domain;
 
 import jakarta.persistence.*;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +16,15 @@ import java.util.List;
 public class Module {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(name = "content_id", nullable = false)
-    private String contentId;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons = new ArrayList<>();
 
-    public Module(String contentId) {
-        this.contentId = contentId;
+    public Module(Long id) {
+        this.id = id;
     }
 
     public void addLesson(Lesson lesson) {

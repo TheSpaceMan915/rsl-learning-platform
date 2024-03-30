@@ -2,7 +2,7 @@ package app.dtos;
 
 import java.util.List;
 
-public record PersonDto(
+public record PersonRequestDto(
         String id,
         String login,
         String clientId,

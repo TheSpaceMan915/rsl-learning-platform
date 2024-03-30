@@ -10,7 +10,6 @@ import app.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-// TODO: Delete DataLoader before deploying to the cloud
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -45,23 +44,32 @@ public class DataLoader implements CommandLineRunner {
         Status available = statusRepo.save(new Status("Available"));
         Status completed = statusRepo.save(new Status("Completed"));
 
-        Step step = new Step("5436");
-        Lesson lesson = new Lesson("47324");
-        Module module = new Module("35232");
-        lesson.addStep(step);
-        module.addLesson(lesson);
-        module = moduleRepo.save(module);
+        Step step1 = new Step(5436L);
+        Lesson lesson1 = new Lesson(7324L);
+        Module module1 = new Module(3522L);
+        module1 = createModule(module1, lesson1, step1);
+
+        Step step2 = new Step(7365L);
+        Lesson lesson2 = new Lesson(5324L);
+        Module module2 = new Module(3532L);
+        module2 = createModule(module2, lesson2, step2);
 
         ModuleProgress moduleProgress =
-                new ModuleProgress(person, module, completed);
+                new ModuleProgress(person, module1, completed);
         moduleProgress = moduleProgressRepo.save(moduleProgress);
 
         LessonProgress lessonProgress =
-                new LessonProgress(person, lesson, completed);
+                new LessonProgress(person, lesson1, completed);
         lessonProgress = lessonProgressRepo.save(lessonProgress);
 
         StepProgress stepProgress =
-                new StepProgress(person, step, completed);
+                new StepProgress(person, step1, completed);
         stepProgress = stepProgressRepo.save(stepProgress);
+    }
+
+    private Module createModule(Module module, Lesson lesson, Step step) {
+        lesson.addStep(step);
+        module.addLesson(lesson);
+        return moduleRepo.save(module);
     }
 }

@@ -1,7 +1,7 @@
 package app.services;
 
 import app.domain.Person;
-import app.dtos.PersonDto;
+import app.dtos.PersonRequestDto;
 import app.mappers.PersonMapper;
 import app.repositories.PersonRepository;
 
@@ -15,26 +15,38 @@ public class PersonService {
 
     private PersonRepository personRepo;
     private RestTemplate rest;
+    private ModuleProgressService moduleProgressService;
+    private LessonProgressService lessonProgressService;
+    private StepProgressService stepProgressService;
 
     public PersonService(PersonRepository personRepo,
-                         RestTemplate rest) {
+                         RestTemplate rest,
+                         ModuleProgressService moduleProgressService,
+                         LessonProgressService lessonProgressService,
+                         StepProgressService stepProgressService) {
         this.personRepo = personRepo;
         this.rest = rest;
+        this.moduleProgressService = moduleProgressService;
+        this.lessonProgressService = lessonProgressService;
+        this.stepProgressService = stepProgressService;
     }
 
 //    Finds a Person who has this oauthToken using Yandex ID API.
 //    If the Person is new, they are saved in the db
-    public ResponseEntity<PersonDto> find(String oauthToken) {
-        PersonDto dto = request(oauthToken);
-        if (!exist(dto)) {
-            create(dto);
+    public ResponseEntity<PersonRequestDto> find(String oauthToken) {
+        PersonRequestDto dto = request(oauthToken);
+        Person person = PersonMapper.MAPPER.toEntity(dto);
+        if (!exist(person)) {
+            person = create(person);
         }
+        //    TODO:
+        //     Return PersonResponseDto
+        //     Return the Person's data as well as the Progress data
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    //    TODO: Write the logic to work with refresh tokens
     // Sends a GET request to Yandex ID API to get the Person's data.
-    private PersonDto request(String oauthToken) {
+    private PersonRequestDto request(String oauthToken) {
         // Set up the request
         String url = "https://login.yandex.ru/info";
         HttpHeaders headers = new HttpHeaders();
@@ -42,23 +54,24 @@ public class PersonService {
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
         // Get the response
-        ResponseEntity<PersonDto> response = rest.exchange(
+        ResponseEntity<PersonRequestDto> response = rest.exchange(
                 url,
-                HttpMethod.GET, requestEntity,
-                PersonDto.class);
+                HttpMethod.GET,
+                requestEntity,
+                PersonRequestDto.class);
         return response.getBody();
     }
 
-    private boolean exist(PersonDto dto) {
-        Long id = Long.valueOf(dto.id());
-        return personRepo.existsById(id);
+//    Checks if the Person with this id exists
+    private boolean exist(Person person) {
+        return personRepo.existsById(person.getId());
     }
 
-    private Person create(PersonDto dto) {
-        Person person = PersonMapper.MAPPER.toEntity(dto);
-//        TODO:
-//         Create the Progress services
-//         Write the methods linking the Progress entities to the Person
+//    Creates a new Person with Module, Lesson and Step Progresses
+    private Person create(Person person) {
+        moduleProgressService.create(person);
+        lessonProgressService.create(person);
+        stepProgressService.create(person);
         return personRepo.save(person);
     }
 }

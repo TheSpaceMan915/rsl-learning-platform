@@ -2,10 +2,7 @@ package app.domain;
 
 import jakarta.persistence.*;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +16,8 @@ import java.util.List;
 public class Lesson {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(name = "content_id", nullable = false)
-    private String contentId;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,8 +28,8 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Step> steps = new ArrayList<>();
 
-    public Lesson(String contentId) {
-        this.contentId = contentId;
+    public Lesson(Long id) {
+        this.id = id;
     }
 
     public void addStep(Step step) {
