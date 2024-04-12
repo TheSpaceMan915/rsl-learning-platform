@@ -1,7 +1,7 @@
 package app.services;
 
 import app.domain.Person;
-import app.dtos.PersonRequestDto;
+import app.dtos.unique.PersonYandexData;
 import app.mappers.PersonMapper;
 import app.repositories.PersonRepository;
 
@@ -13,17 +13,20 @@ import org.springframework.stereotype.Service;
 public class PersonService {
 
     private PersonRepository personRepo;
+    private PersonMapper personMapper;
     private AuthenticationService authenticationService;
     private ModuleProgressService moduleProgressService;
     private LessonProgressService lessonProgressService;
     private StepProgressService stepProgressService;
 
     public PersonService(PersonRepository personRepo,
+                         PersonMapper personMapper,
                          AuthenticationService authenticationService,
                          ModuleProgressService moduleProgressService,
                          LessonProgressService lessonProgressService,
                          StepProgressService stepProgressService) {
         this.personRepo = personRepo;
+        this.personMapper = personMapper;
         this.authenticationService = authenticationService;
         this.moduleProgressService = moduleProgressService;
         this.lessonProgressService = lessonProgressService;
@@ -32,15 +35,16 @@ public class PersonService {
 
 //    Finds the Person who has this oauthToken using Yandex ID API.
 //    If the Person is new, they are saved in the db
-    public ResponseEntity<PersonRequestDto> find(String oauthToken) {
-        PersonRequestDto dto = authenticationService.authenticate(oauthToken);
-        Person person = PersonMapper.MAPPER.toEntity(dto);
+    public ResponseEntity<PersonYandexData> getByToken(String oauthToken) {
+        PersonYandexData dto = authenticationService.authenticate(oauthToken);
+        Person person = personMapper.toEntity(dto);
         if (!exist(person)) {
             person = create(person);
         }
         //    TODO:
-        //     Return PersonResponseDto
-        //     Return the Person's data as well as the Progress data
+        //     Add the fields that I need to return in response from PersonRequestDto to Person.
+//             And then using Person, create PersonResponseDto
+//             with the Person's data and the Progress data
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

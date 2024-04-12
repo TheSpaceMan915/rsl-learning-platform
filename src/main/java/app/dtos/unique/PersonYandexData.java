@@ -1,8 +1,8 @@
-package app.dtos;
+package app.dtos.unique;
 
 import java.util.List;
 
-public record PersonRequestDto(
+public record PersonYandexData(
         String id,
         String login,
         String clientId,
@@ -19,7 +19,7 @@ public record PersonRequestDto(
         String psuid
 ) {
 
-    public static record DefaultPhone(
+    private record DefaultPhone(
             long id,
             String number
     ) {}

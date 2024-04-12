@@ -1,6 +1,6 @@
 package app.services;
 
-import app.dtos.PersonRequestDto;
+import app.dtos.unique.PersonYandexData;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,19 +19,19 @@ public class AuthenticationService {
     }
 
 //    Authenticates the Person using Yandex ID API and gets the Person's data in response.
-    public PersonRequestDto authenticate(String oauthToken) {
+    public PersonYandexData authenticate(String oauthToken) {
         String url = "https://login.yandex.ru/info";
-        HttpEntity<Void> requestEntity = setupRequest(oauthToken);
-        ResponseEntity<PersonRequestDto> response = rest.exchange(
+        HttpEntity<Void> requestEntity = createHeaders(oauthToken);
+        ResponseEntity<PersonYandexData> response = rest.exchange(
                 url,
                 HttpMethod.GET,
                 requestEntity,
-                PersonRequestDto.class);
+                PersonYandexData.class);
         return response.getBody();
     }
 
-    // Sets up a request for Yandex ID API
-    private HttpEntity<Void> setupRequest(String oauthToken) {
+    // Creates headers for the request
+    private HttpEntity<Void> createHeaders(String oauthToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "OAuth " + oauthToken);
         return new HttpEntity<>(headers);

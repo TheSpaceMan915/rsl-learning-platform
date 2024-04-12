@@ -43,6 +43,10 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StepProgress> stepProgresses = new ArrayList<>();
 
+    public Person(Long id) {
+        this.id = id;
+    }
+
     public void addModuleProgress(ModuleProgress progress) {
         moduleProgresses.add(progress);
         progress.setPerson(this);
