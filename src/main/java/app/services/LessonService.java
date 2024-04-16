@@ -1,6 +1,6 @@
 package app.services;
 
-import app.dtos.unique.LessonContent;
+import app.dtos.unique.GetLessonRequest;
 import app.services.interfaces.Contained;
 
 import org.springframework.http.ResponseEntity;
@@ -11,19 +11,38 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Provides operations to fetch lesson content from an external content management system (CMS), specifically Strapi.
+ * This service class facilitates the business logic related to the retrieval of lesson details necessary for the educational platform.
+ *
+ * <p>This service implements the {@link Contained} interface, which standardizes the way content is fetched across different service classes.</p>
+ *
+ * @author Nikita Kolychev
+ */
 @Service
-public class LessonService implements Contained<LessonContent> {
+public class LessonService implements Contained<GetLessonRequest> {
 
-    private RestTemplate rest;
+    private final RestTemplate rest;
 
+    /**
+     * Constructs a new LessonService with the given RestTemplate.
+     * The RestTemplate is configured externally and injected here to facilitate HTTP communication with the CMS.
+     *
+     * @param rest the RestTemplate used for HTTP operations, not null
+     */
     public LessonService(RestTemplate rest) {
         this.rest = rest;
     }
 
+    /**
+     * Retrieves all available content for lessons from the CMS.
+     * This method constructs an HTTP GET request that is pre-configured to fetch lesson content.
+     *
+     * @return a {@link GetLessonRequest} DTO containing the fetched lesson content from the CMS.
+     */
     @Override
-    public LessonContent getAllContent() {
-
-//        Set up a request
+    public GetLessonRequest getAllContent() {
+//        Construct the URL for the request using URI Components Builder
         String urlTemplate = UriComponentsBuilder.fromHttpUrl(Contained.BASE_URL)
                 .path("/api/")
                 .pathSegment("lectures")
@@ -32,14 +51,15 @@ public class LessonService implements Contained<LessonContent> {
                 .encode()
                 .toUriString();
 
+//        Define parameters for the query
         Map<String, String> params = new HashMap<>();
         params.put("publicationState", "preview");
         params.put("populate", "*");
 
-//        Send the request
-        ResponseEntity<LessonContent> response = rest.getForEntity(
+//        Execute the GET request
+        ResponseEntity<GetLessonRequest> response = rest.getForEntity(
                 urlTemplate,
-                LessonContent.class,
+                GetLessonRequest.class,
                 params);
         return response.getBody();
     }

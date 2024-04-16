@@ -2,7 +2,7 @@ package app.dtos.unique;
 
 import java.util.List;
 
-public record PersonYandexData(
+public record GetPersonRequest(
         String id,
         String login,
         String clientId,

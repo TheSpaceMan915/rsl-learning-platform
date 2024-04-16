@@ -1,24 +1,38 @@
 package app.services;
 
 import app.domain.Person;
-import app.dtos.unique.PersonYandexData;
+import app.dtos.unique.GetPersonRequest;
 import app.mappers.PersonMapper;
 import app.repositories.PersonRepository;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
-// TODO: As soon as I've finished the methods, document them using the comments
+/**
+ * Manages person-related operations for the educational platform.
+ *
+ * @author Nikita Kolychev
+ */
 @Service
 public class PersonService {
 
-    private PersonRepository personRepo;
-    private PersonMapper personMapper;
-    private AuthenticationService authenticationService;
-    private ModuleProgressService moduleProgressService;
-    private LessonProgressService lessonProgressService;
-    private StepProgressService stepProgressService;
+    private final PersonRepository personRepo;
+    private final PersonMapper personMapper;
+    private final AuthenticationService authenticationService;
+    private final ModuleProgressService moduleProgressService;
+    private final LessonProgressService lessonProgressService;
+    private final StepProgressService stepProgressService;
 
+    /**
+     * Constructs a new PersonService with necessary dependencies for managing persons.
+     *
+     * @param personRepo Repository for person data access
+     * @param personMapper Mapper for converting DTOs to entity objects
+     * @param authenticationService Service for authenticating users via Yandex ID
+     * @param moduleProgressService Service for managing module progress
+     * @param lessonProgressService Service for managing lesson progress
+     * @param stepProgressService Service for managing step progress
+     */
     public PersonService(PersonRepository personRepo,
                          PersonMapper personMapper,
                          AuthenticationService authenticationService,
@@ -33,27 +47,37 @@ public class PersonService {
         this.stepProgressService = stepProgressService;
     }
 
-//    Finds the Person who has this oauthToken using Yandex ID API.
-//    If the Person is new, they are saved in the db
-    public ResponseEntity<PersonYandexData> getByToken(String oauthToken) {
-        PersonYandexData dto = authenticationService.authenticate(oauthToken);
+    /**
+     * Retrieves a person's data using their OAuth token via the Yandex ID API, creates a new person if they do not exist.
+     *
+     * @param oauthToken OAuth token used to authenticate and retrieve person data
+     * @return ResponseEntity with person data and HTTP status
+     */
+    public ResponseEntity<GetPersonRequest> getByToken(String oauthToken) {
+        GetPersonRequest dto = authenticationService.authenticate(oauthToken);
         Person person = personMapper.toEntity(dto);
         if (!exist(person)) {
             person = create(person);
         }
-        //    TODO:
-        //     Add the fields that I need to return in response from PersonRequestDto to Person.
-//             And then using Person, create PersonResponseDto
-//             with the Person's data and the Progress data
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-//    Checks if the Person with this id exists
+    /**
+     * Checks if the person already exists in the database.
+     *
+     * @param person Person to check existence for
+     * @return true if exists, false otherwise
+     */
     private boolean exist(Person person) {
         return personRepo.existsById(person.getId());
     }
 
-//    Creates a new Person with Module, Lesson and Step Progresses
+    /**
+     * Creates a new person and initialises their progress for modules, lessons, and steps.
+     *
+     * @param person Person to create and initialise progress for
+     * @return the newly created person
+     */
     private Person create(Person person) {
         moduleProgressService.create(person);
         lessonProgressService.create(person);

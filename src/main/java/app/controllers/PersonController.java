@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.dtos.unique.PersonYandexData;
+import app.dtos.unique.GetPersonRequest;
 import app.services.PersonService;
 
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
                 produces = "application/json")
 public class PersonController {
 
-    private PersonService personService;
+    private final PersonService personService;
 
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
     @GetMapping(path = "/{oauthToken}")
-    public ResponseEntity<PersonYandexData> getByToken(@PathVariable("oauthToken") String oauthToken) {
+    public ResponseEntity<GetPersonRequest> getByToken(@PathVariable("oauthToken") String oauthToken) {
         return personService.getByToken(oauthToken);
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import app.dtos.common.MetaData;
 import app.dtos.common.Status;
 
-public record StepContent(
+public record GetStepRequest(
         List<Data> data,
         MetaData meta
 ) {

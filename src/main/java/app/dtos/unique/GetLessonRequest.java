@@ -5,7 +5,7 @@ import app.dtos.common.Status;
 
 import java.util.List;
 
-public record ModuleContent(
+public record GetLessonRequest(
         List<Data> data,
         MetaData meta
 ) {
@@ -21,6 +21,6 @@ public record ModuleContent(
             String updatedAt,
             String publishedAt,
             Status status,
-            LessonContent lectures
+            GetStepRequest steps
     ) {}
 }
