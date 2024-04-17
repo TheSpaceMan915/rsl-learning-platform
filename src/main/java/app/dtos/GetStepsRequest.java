@@ -1,11 +1,11 @@
-package app.dtos.unique;
-
-import app.dtos.common.MetaData;
-import app.dtos.common.Status;
+package app.dtos;
 
 import java.util.List;
 
-public record GetLessonRequest(
+import app.dtos.shared.MetaData;
+import app.dtos.shared.Status;
+
+public record GetStepsRequest(
         List<Data> data,
         MetaData meta
 ) {
@@ -21,6 +21,18 @@ public record GetLessonRequest(
             String updatedAt,
             String publishedAt,
             Status status,
-            GetStepRequest steps
+            List<Content> content,
+            Type type
+    ) {}
+
+    private record Content(
+            long id,
+            String __component,
+            String text
+    ) {}
+
+    private record Type(
+            long id,
+            String type
     ) {}
 }

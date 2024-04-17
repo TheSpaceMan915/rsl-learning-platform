@@ -1,12 +1,12 @@
-package app.dtos.unique;
+package app.dtos;
 
-import app.dtos.common.MetaData;
-import app.dtos.common.Status;
+import app.dtos.shared.MetaData;
+import app.dtos.shared.Status;
 
 import java.util.List;
 
 public record GetModuleRequest(
-        List<Data> data,
+        Data data,
         MetaData meta
 ) {
     private record Data(
@@ -21,6 +21,6 @@ public record GetModuleRequest(
             String updatedAt,
             String publishedAt,
             Status status,
-            GetLessonRequest lectures
+            GetLessonsRequest lectures
     ) {}
 }

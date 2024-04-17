@@ -1,6 +1,6 @@
 package app.services;
 
-import app.dtos.unique.GetPersonRequest;
+import app.dtos.GetPersonRequest;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

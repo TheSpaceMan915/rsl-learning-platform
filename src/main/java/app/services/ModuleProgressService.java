@@ -7,7 +7,6 @@ import app.domain.progress.ModuleProgress;
 import app.domain.progress.Progress;
 import app.repositories.ModuleRepository;
 import app.repositories.StatusRepository;
-import app.services.interfaces.Progressive;
 
 import org.springframework.stereotype.Service;
 

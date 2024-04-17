@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.dtos.unique.GetPersonRequest;
+import app.dtos.GetPersonRequest;
 import app.services.PersonService;
 
 import org.springframework.http.ResponseEntity;

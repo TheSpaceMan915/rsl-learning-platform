@@ -1,4 +1,4 @@
-package app.dtos.unique;
+package app.dtos;
 
 import java.util.List;
 

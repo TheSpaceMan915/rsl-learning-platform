@@ -14,4 +14,9 @@ public class StepServiceTest {
     public void getAllContent() {
         stepService.getAllContent();
     }
+
+    @Test
+    public void getContentById() {
+        stepService.getContentById("1");
+    }
 }

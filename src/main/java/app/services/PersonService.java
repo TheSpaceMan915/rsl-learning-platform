@@ -1,7 +1,7 @@
 package app.services;
 
 import app.domain.Person;
-import app.dtos.unique.GetPersonRequest;
+import app.dtos.GetPersonRequest;
 import app.mappers.PersonMapper;
 import app.repositories.PersonRepository;
 

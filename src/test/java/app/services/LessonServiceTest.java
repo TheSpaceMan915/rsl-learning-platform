@@ -14,4 +14,9 @@ public class LessonServiceTest {
     public void getAllContent() {
         lessonService.getAllContent();
     }
+
+    @Test
+    public void getContentById() {
+        lessonService.getContentById("1");
+    }
 }

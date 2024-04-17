@@ -1,4 +1,4 @@
-package app.dtos.common;
+package app.dtos.shared;
 
 public record Pagination(
         int page,

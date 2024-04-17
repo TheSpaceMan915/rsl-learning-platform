@@ -14,4 +14,9 @@ public class ModuleServiceTest {
     public void getAllContent() {
         moduleService.getAllContent();
     }
+
+    @Test
+    public void getContentById() {
+        moduleService.getContentById("1");
+    }
 }

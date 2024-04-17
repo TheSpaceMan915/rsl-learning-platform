@@ -1,7 +1,7 @@
 package app.services;
 
-import app.dtos.unique.GetStepRequest;
-import app.services.interfaces.Contained;
+import app.dtos.GetStepRequest;
+import app.dtos.GetStepsRequest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ import java.util.Map;
  * Provides operations to fetch step content from an external content management system (CMS), specifically Strapi.
  * This service class facilitates the business logic related to the retrieval of step details necessary for the educational platform.
  *
- * <p>This service implements the {@link Contained} interface, which standardizes the way content is fetched across different service classes.</p>
+ * <p>This service implements the {@link ContentConstants} interface, which standardizes the way content is fetched across different service classes.</p>
  *
  * @author Nikita Kolychev
  */
 @Service
-public class StepService implements Contained<GetStepRequest> {
+public class StepService {
 
     private final RestTemplate rest;
 
@@ -38,13 +38,12 @@ public class StepService implements Contained<GetStepRequest> {
      * Retrieves all available content for steps from the CMS.
      * This method constructs an HTTP GET request that is pre-configured to fetch step content.
      *
-     * @return a {@link GetStepRequest} DTO containing the fetched step content from the CMS.
+     * @return a {@link GetStepsRequest} DTO containing the fetched step content from the CMS.
      */
-    @Override
-    public GetStepRequest getAllContent() {
+    public GetStepsRequest getAllContent() {
 //        Construct the URL for the request using URI Components Builder
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(Contained.BASE_URL)
-                .path("/api/")
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
+                .path(ContentConstants.BASE_PATH)
                 .pathSegment("steps")
                 .queryParam("publicationState", "{publicationState}")
                 .queryParam("populate", "{populate}")
@@ -54,6 +53,27 @@ public class StepService implements Contained<GetStepRequest> {
 //        Define parameters for the query
         Map<String, String> params = new HashMap<>();
         params.put("publicationState", "preview");
+        params.put("populate", "*");
+
+//        Execute the GET request
+        ResponseEntity<GetStepsRequest> response = rest.getForEntity(
+                urlTemplate,
+                GetStepsRequest.class,
+                params);
+        return response.getBody();
+    }
+
+    public GetStepRequest getContentById(String id) {
+//        Construct the URL for the request using URI Components Builder
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
+                .path(ContentConstants.BASE_PATH)
+                .pathSegment("steps", id)
+                .queryParam("populate", "{populate}")
+                .encode()
+                .toUriString();
+
+//        Define parameters for the query
+        Map<String, String> params = new HashMap<>();
         params.put("populate", "*");
 
 //        Execute the GET request

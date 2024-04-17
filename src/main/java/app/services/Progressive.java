@@ -1,4 +1,4 @@
-package app.services.interfaces;
+package app.services;
 
 import app.domain.Person;
 import app.domain.Status;

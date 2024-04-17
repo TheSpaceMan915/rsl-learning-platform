@@ -1,12 +1,12 @@
-package app.dtos.unique;
+package app.dtos;
+
+import app.dtos.shared.MetaData;
+import app.dtos.shared.Status;
 
 import java.util.List;
 
-import app.dtos.common.MetaData;
-import app.dtos.common.Status;
-
 public record GetStepRequest(
-        List<Data> data,
+        Data data,
         MetaData meta
 ) {
     private record Data(
