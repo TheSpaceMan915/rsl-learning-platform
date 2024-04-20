@@ -9,12 +9,12 @@ public record GetStepsRequest(
         List<Data> data,
         MetaData meta
 ) {
-    private record Data(
+    public record Data(
             long id,
             Attributes attributes
     ) {}
 
-    private record Attributes(
+    public record Attributes(
             String title,
             String description,
             String createdAt,
@@ -25,13 +25,13 @@ public record GetStepsRequest(
             Type type
     ) {}
 
-    private record Content(
+    public record Content(
             long id,
             String __component,
             String text
     ) {}
 
-    private record Type(
+    public record Type(
             long id,
             String type
     ) {}

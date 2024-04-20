@@ -1,4 +1,4 @@
-package app.mappers;
+package app.components.mappers;
 
 import app.domain.Person;
 import app.dtos.GetPersonRequest;

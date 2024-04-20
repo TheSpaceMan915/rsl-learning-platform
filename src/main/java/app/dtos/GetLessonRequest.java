@@ -3,18 +3,16 @@ package app.dtos;
 import app.dtos.shared.MetaData;
 import app.dtos.shared.Status;
 
-import java.util.List;
-
 public record GetLessonRequest(
         Data data,
         MetaData meta
 ) {
-    private record Data(
+    public record Data(
             long id,
             Attributes attributes
     ) {}
 
-    private record Attributes(
+    public record Attributes(
             String title,
             String description,
             String createdAt,

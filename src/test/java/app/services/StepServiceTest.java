@@ -10,13 +10,13 @@ public class StepServiceTest {
     @Autowired
     private StepService stepService;
 
-    @Test
-    public void getAllContent() {
-        stepService.getAllContent();
-    }
+//    @Test
+//    public void getAllContent() {
+//        stepService.getAllContent();
+//    }
 
     @Test
     public void getContentById() {
-        stepService.getContentById("1");
+        stepService.getContentById(1L);
     }
 }

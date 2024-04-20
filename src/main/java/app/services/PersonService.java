@@ -2,7 +2,7 @@ package app.services;
 
 import app.domain.Person;
 import app.dtos.GetPersonRequest;
-import app.mappers.PersonMapper;
+import app.components.mappers.PersonMapper;
 import app.repositories.PersonRepository;
 
 import org.springframework.http.*;
@@ -55,6 +55,8 @@ public class PersonService {
      */
     public ResponseEntity<GetPersonRequest> getByToken(String oauthToken) {
         GetPersonRequest dto = authenticationService.authenticate(oauthToken);
+
+//        TODO: Should move it to a POST endpoint that will create a user
         Person person = personMapper.toEntity(dto);
         if (!exist(person)) {
             person = create(person);

@@ -17,6 +17,6 @@ public class ModuleServiceTest {
 
     @Test
     public void getContentById() {
-        moduleService.getContentById("1");
+        moduleService.getContentById(1L);
     }
 }

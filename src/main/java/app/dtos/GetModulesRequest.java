@@ -9,12 +9,12 @@ public record GetModulesRequest(
         List<Data> data,
         MetaData meta
 ) {
-    private record Data(
+    public record Data(
             long id,
             Attributes attributes
     ) {}
 
-    private record Attributes(
+    public record Attributes(
             String title,
             String description,
             String createdAt,

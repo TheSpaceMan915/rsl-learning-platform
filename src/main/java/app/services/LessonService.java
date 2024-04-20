@@ -1,15 +1,14 @@
 package app.services;
 
+import app.components.mappers.LessonMapper;
 import app.dtos.GetLessonRequest;
-import app.dtos.GetLessonsRequest;
+import app.dtos.GetLessonResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Provides operations to fetch lesson content from an external content management system (CMS), specifically Strapi.
@@ -23,6 +22,7 @@ import java.util.Map;
 public class LessonService {
 
     private final RestTemplate rest;
+    private final LessonMapper mapper;
 
     /**
      * Constructs a new LessonService with the given RestTemplate.
@@ -30,57 +30,32 @@ public class LessonService {
      *
      * @param rest the RestTemplate used for HTTP operations, not null
      */
-    public LessonService(RestTemplate rest) {
+    public LessonService(RestTemplate rest,
+                         LessonMapper mapper) {
         this.rest = rest;
+        this.mapper = mapper;
     }
 
-    /**
-     * Retrieves all available content for lessons from the CMS.
-     * This method constructs an HTTP GET request that is pre-configured to fetch lesson content.
-     *
-     * @return a {@link GetLessonsRequest} DTO containing the fetched lesson content from the CMS.
-     */
-    public GetLessonsRequest getAllContent() {
+    public ResponseEntity<GetLessonResponse> getContentById(Long id) {
 //        Construct the URL for the request using URI Components Builder
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
+        String url = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
                 .path(ContentConstants.BASE_PATH)
-                .pathSegment("lectures")
-                .queryParam("publicationState", "{publicationState}")
-                .queryParam("populate", "{populate}")
-                .encode()
+                .pathSegment("lectures", Long.toString(id))
+                .queryParam("populate[steps][populate]", "{populate[steps][populate]}")
+                .queryParam("populate[steps][populate]", "{populate[steps][populate]}")
+                .queryParam("populate[status][populate]", "{populate[status][populate]}")
+                .buildAndExpand("status", "type", "*")
                 .toUriString();
 
-//        Define parameters for the query
-        Map<String, String> params = new HashMap<>();
-        params.put("publicationState", "preview");
-        params.put("populate", "*");
-
 //        Execute the GET request
-        ResponseEntity<GetLessonsRequest> response = rest.getForEntity(
-                urlTemplate,
-                GetLessonsRequest.class,
-                params);
-        return response.getBody();
+        ResponseEntity<GetLessonRequest> responseEntity = rest.getForEntity(
+                url,
+                GetLessonRequest.class);
+        if (responseEntity.hasBody()) {
+            GetLessonResponse lesson =
+                    mapper.toLesson(responseEntity.getBody());
+            return new ResponseEntity<>(lesson, HttpStatus.OK);
     }
-
-    public GetLessonRequest getContentById(String id) {
-//        Construct the URL for the request using URI Components Builder
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
-                .path(ContentConstants.BASE_PATH)
-                .pathSegment("lectures", id)
-                .queryParam("populate", "{populate}")
-                .encode()
-                .toUriString();
-
-//        Define parameters for the query
-        Map<String, String> params = new HashMap<>();
-        params.put("populate", "*");
-
-//        Execute the GET request
-        ResponseEntity<GetLessonRequest> response = rest.getForEntity(
-                urlTemplate,
-                GetLessonRequest.class,
-                params);
-        return response.getBody();
-    }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 }

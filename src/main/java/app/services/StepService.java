@@ -1,15 +1,14 @@
 package app.services;
 
+import app.components.mappers.StepMapper;
 import app.dtos.GetStepRequest;
-import app.dtos.GetStepsRequest;
+import app.dtos.GetStepResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Provides operations to fetch step content from an external content management system (CMS), specifically Strapi.
@@ -24,63 +23,38 @@ public class StepService {
 
     private final RestTemplate rest;
 
+    private final StepMapper stepMapper;
+
     /**
      * Constructs a new StepService with the given RestTemplate.
      * The RestTemplate is configured externally and injected here to facilitate HTTP communication with the CMS.
      *
      * @param rest the RestTemplate used for HTTP operations, not null
      */
-    public StepService(RestTemplate rest) {
+    public StepService(RestTemplate rest,
+                       StepMapper stepMapper) {
         this.rest = rest;
+        this.stepMapper = stepMapper;
     }
 
-    /**
-     * Retrieves all available content for steps from the CMS.
-     * This method constructs an HTTP GET request that is pre-configured to fetch step content.
-     *
-     * @return a {@link GetStepsRequest} DTO containing the fetched step content from the CMS.
-     */
-    public GetStepsRequest getAllContent() {
+    public ResponseEntity<GetStepResponse> getContentById(Long id) {
 //        Construct the URL for the request using URI Components Builder
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
+        String url = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
                 .path(ContentConstants.BASE_PATH)
-                .pathSegment("steps")
-                .queryParam("publicationState", "{publicationState}")
+                .pathSegment("steps", Long.toString(id))
                 .queryParam("populate", "{populate}")
-                .encode()
+                .buildAndExpand("*")
                 .toUriString();
 
-//        Define parameters for the query
-        Map<String, String> params = new HashMap<>();
-        params.put("publicationState", "preview");
-        params.put("populate", "*");
-
 //        Execute the GET request
-        ResponseEntity<GetStepsRequest> response = rest.getForEntity(
-                urlTemplate,
-                GetStepsRequest.class,
-                params);
-        return response.getBody();
-    }
-
-    public GetStepRequest getContentById(String id) {
-//        Construct the URL for the request using URI Components Builder
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
-                .path(ContentConstants.BASE_PATH)
-                .pathSegment("steps", id)
-                .queryParam("populate", "{populate}")
-                .encode()
-                .toUriString();
-
-//        Define parameters for the query
-        Map<String, String> params = new HashMap<>();
-        params.put("populate", "*");
-
-//        Execute the GET request
-        ResponseEntity<GetStepRequest> response = rest.getForEntity(
-                urlTemplate,
-                GetStepRequest.class,
-                params);
-        return response.getBody();
+        ResponseEntity<GetStepRequest> responseEntity = rest.getForEntity(
+                url,
+                GetStepRequest.class);
+        if (responseEntity.hasBody()) {
+            GetStepResponse step =
+                    stepMapper.toStep(responseEntity.getBody());
+            return new ResponseEntity<>(step, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

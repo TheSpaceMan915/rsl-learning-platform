@@ -19,7 +19,7 @@ public record GetPersonRequest(
         String psuid
 ) {
 
-    private record DefaultPhone(
+    public record DefaultPhone(
             long id,
             String number
     ) {}

@@ -1,14 +1,18 @@
 package app.services;
 
+import app.components.mappers.ModuleMapper;
 import app.dtos.GetModuleRequest;
+import app.dtos.GetModuleResponse;
 import app.dtos.GetModulesRequest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +27,7 @@ import java.util.Map;
 public class ModuleService {
 
     private final RestTemplate rest;
+    private final ModuleMapper mapper;
 
     /**
      * Constructs a new ModuleService with the provided RestTemplate.
@@ -30,8 +35,10 @@ public class ModuleService {
      *
      * @param rest the RestTemplate used for HTTP operations, must not be null
      */
-    public ModuleService(RestTemplate rest) {
+    public ModuleService(RestTemplate rest,
+                         ModuleMapper mapper) {
         this.rest = rest;
+        this.mapper = mapper;
     }
 
     /**
@@ -40,9 +47,9 @@ public class ModuleService {
      *
      * @return a {@link GetModulesRequest} data transfer object containing the module content from the CMS.
      */
-    public GetModulesRequest getAllContent() {
+    public ResponseEntity<List<GetModuleResponse>> getAllContent() {
 //        Construct the URL for the request using URI Components Builder
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
+        String url = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
                 .path(ContentConstants.BASE_PATH)
                 .pathSegment("modules")
                 .queryParam("publicationState", "{publicationState}")
@@ -57,30 +64,36 @@ public class ModuleService {
 
 //        Execute the GET request
         ResponseEntity<GetModulesRequest> response = rest.getForEntity(
-                urlTemplate,
+                url,
                 GetModulesRequest.class,
                 params);
-        return response.getBody();
+        if (response.hasBody()) {
+            List<GetModuleResponse> modules =
+                    mapper.toModules(response.getBody());
+            return new ResponseEntity<>(modules, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public GetModuleRequest getContentById(String id) {
+    public ResponseEntity<GetModuleResponse> getContentById(Long id) {
 //        Construct the URL for the request using URI Components Builder
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
+        String url = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
                 .path(ContentConstants.BASE_PATH)
-                .pathSegment("modules", id)
-                .queryParam("populate", "{populate}")
-                .encode()
+                .pathSegment("modules", Long.toString(id))
+                .queryParam("populate[lectures][populate]", "{populate[lectures][populate]}")
+                .queryParam("populate[status][populate]", "{populate[status][populate]}")
+                .buildAndExpand("status", "*")
                 .toUriString();
 
-//        Define parameters for the query
-        Map<String, String> params = new HashMap<>();
-        params.put("populate", "*");
-
 //        Execute the GET request
-        ResponseEntity<GetModuleRequest> response = rest.getForEntity(
-                urlTemplate,
-                GetModuleRequest.class,
-                params);
-        return response.getBody();
+        ResponseEntity<GetModuleRequest> responseEntity = rest.getForEntity(
+                url,
+                GetModuleRequest.class);
+        if (responseEntity.hasBody()) {
+            GetModuleResponse module =
+                    mapper.toModule(responseEntity.getBody());
+            return new ResponseEntity<>(module, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
