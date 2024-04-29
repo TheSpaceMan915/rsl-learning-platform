@@ -1,5 +1,6 @@
 package app.services;
 
+import app.components.StrapiProperties;
 import app.components.mappers.LessonMapper;
 import app.dtos.GetLessonRequest;
 import app.dtos.GetLessonResponse;
@@ -14,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * Provides operations to fetch lesson content from an external content management system (CMS), specifically Strapi.
  * This service class facilitates the business logic related to the retrieval of lesson details necessary for the educational platform.
  *
- * <p>This service implements the {@link ContentConstants} interface, which standardizes the way content is fetched across different service classes.</p>
+ * <p>This service implements the {@link StrapiProperties} interface, which standardizes the way content is fetched across different service classes.</p>
  *
  * @author Nikita Kolychev
  */
@@ -22,7 +23,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class LessonService {
 
     private final RestTemplate rest;
-    private final LessonMapper mapper;
+    private final LessonMapper lessonMapper;
+    private final StrapiProperties strapiProperties;
 
     /**
      * Constructs a new LessonService with the given RestTemplate.
@@ -31,15 +33,17 @@ public class LessonService {
      * @param rest the RestTemplate used for HTTP operations, not null
      */
     public LessonService(RestTemplate rest,
-                         LessonMapper mapper) {
+                         LessonMapper lessonMapper,
+                         StrapiProperties strapiProperties) {
         this.rest = rest;
-        this.mapper = mapper;
+        this.lessonMapper = lessonMapper;
+        this.strapiProperties = strapiProperties;
     }
 
-    public ResponseEntity<GetLessonResponse> getContentById(Long id) {
+    public ResponseEntity<GetLessonResponse> getById(Long id) {
 //        Construct the URL for the request using URI Components Builder
-        String url = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
-                .path(ContentConstants.BASE_PATH)
+        String url = UriComponentsBuilder.fromHttpUrl(strapiProperties.getUrl())
+                .path(strapiProperties.getPath())
                 .pathSegment("lectures", Long.toString(id))
                 .queryParam("populate[steps][populate]", "{populate[steps][populate]}")
                 .queryParam("populate[steps][populate]", "{populate[steps][populate]}")
@@ -53,7 +57,7 @@ public class LessonService {
                 GetLessonRequest.class);
         if (responseEntity.hasBody()) {
             GetLessonResponse lesson =
-                    mapper.toLesson(responseEntity.getBody());
+                    lessonMapper.toLesson(responseEntity.getBody());
             return new ResponseEntity<>(lesson, HttpStatus.OK);
     }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

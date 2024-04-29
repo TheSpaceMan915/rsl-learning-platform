@@ -57,10 +57,10 @@ public class PersonService {
         GetPersonRequest dto = authenticationService.authenticate(oauthToken);
 
 //        TODO: Should move it to a POST endpoint that will create a user
-        Person person = personMapper.toEntity(dto);
-        if (!exist(person)) {
-            person = create(person);
-        }
+//        Person person = personMapper.toEntity(dto);
+//        if (!exist(person)) {
+//            person = create(person);
+//        }
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

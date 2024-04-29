@@ -4,19 +4,18 @@ services:
   app:
     image: rsl-learning-platform:latest
     build:
-      context: .
+      context: ../
+      dockerfile: docker/Dockerfile
     container_name: rsl-learning-platform-app
+    ports:
+      - "8080:8090"
     depends_on:
       - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-      - SPRING_DATASOURCE_USERNAME=compose-postgres
-      - SPRING_DATASOURCE_PASSWORD=compose-postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    env_file:
+      - app.env
 
   db:
     image: postgres:13.14-alpine3.19
     container_name: rsl-learning-platform-db
-    environment:
-      - POSTGRES_USER=compose-postgres
-      - POSTGRES_PASSWORD=compose-postgres
+    env_file:
+      - db.env

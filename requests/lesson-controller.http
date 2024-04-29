@@ -1,0 +1,3 @@
+### Get a lesson
+GET http://localhost:8090/platform-api/lessons/1
+Accept: application/json

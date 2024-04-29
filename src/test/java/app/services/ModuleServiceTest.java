@@ -11,12 +11,12 @@ public class ModuleServiceTest {
     private ModuleService moduleService;
 
     @Test
-    public void getAllContent() {
-        moduleService.getAllContent();
+    public void getAll() {
+        moduleService.getAll();
     }
 
     @Test
-    public void getContentById() {
-        moduleService.getContentById(1L);
+    public void getById() {
+        moduleService.getById(1L);
     }
 }

@@ -1,5 +1,7 @@
 package app.services;
 
+import app.components.StrapiProperties;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,9 @@ public class LessonServiceTest {
     @Autowired
     private LessonService lessonService;
 
+    @Autowired
+    private StrapiProperties strapiProperties;
+
 //    @Test
 //    public void getAllContent() {
 //        lessonService.getAllContent();
@@ -21,8 +26,8 @@ public class LessonServiceTest {
 
     @Test
     public void buildUrl() {
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(ContentConstants.BASE_URL)
-                .path(ContentConstants.BASE_PATH)
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(strapiProperties.getUrl())
+                .path(strapiProperties.getPath())
                 .pathSegment("lectures", "1")
                 .queryParam("populate[steps][populate]", "{populate[steps][populate]}")
                 .queryParam("populate[steps][populate]", "{populate[steps][populate]}")
@@ -33,7 +38,7 @@ public class LessonServiceTest {
     }
 
     @Test
-    public void getContentById() {
-        lessonService.getContentById(1L);
+    public void getById() {
+        lessonService.getById(1L);
     }
 }

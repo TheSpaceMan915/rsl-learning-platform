@@ -1,3 +1,14 @@
+# Environment variables
+env:
+  base-url: http://51.250.97.205
+  api-path: platform-api
+  strapi-port: 1337
+  frontend-port: 1400
+
+# Application properties
+server:
+  port: 8090
+
 spring:
   datasource:
     generate-unique-name: false
