@@ -21,14 +21,8 @@ public record GetStepRequest(
             String updatedAt,
             String publishedAt,
             Status status,
-            List<Content> content,
+            List<Object> content,
             Type type
-    ) {}
-
-    public record Content(
-            long id,
-            String __component,
-            String text
     ) {}
 
     public record Type(

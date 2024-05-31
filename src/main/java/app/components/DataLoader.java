@@ -40,12 +40,12 @@ public class DataLoader implements CommandLineRunner {
         person.setId(1L);
         person = personRepo.save(person);
 
-        Status blocked = statusRepo.save(new Status("Blocked"));
         Status available = statusRepo.save(new Status("Available"));
         Status finished = statusRepo.save(new Status("Finished"));
-        Status inProgress = statusRepo.save(new Status("In progress"));
+//        Status blocked = statusRepo.save(new Status("Blocked"));
+//        Status inProgress = statusRepo.save(new Status("In progress"));
 
-        Step step1 = new Step(5436L);
+/*        Step step1 = new Step(5436L);
         Lesson lesson1 = new Lesson(7324L);
         Module module1 = new Module(3522L);
         module1 = createModule(module1, lesson1, step1);
@@ -65,7 +65,7 @@ public class DataLoader implements CommandLineRunner {
 
         StepProgress stepProgress =
                 new StepProgress(person, step1, finished);
-        stepProgress = stepProgressRepo.save(stepProgress);
+        stepProgress = stepProgressRepo.save(stepProgress);*/
     }
 
     private Module createModule(Module module, Lesson lesson, Step step) {

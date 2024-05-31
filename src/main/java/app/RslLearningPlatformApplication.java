@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-// Swagger documentation: http://localhost:8080/swagger-ui/index.html
+// Swagger documentation: http://localhost:8090/swagger-ui/index.html
 
 @SpringBootApplication
 public class RslLearningPlatformApplication {

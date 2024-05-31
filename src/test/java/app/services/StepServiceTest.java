@@ -17,6 +17,6 @@ public class StepServiceTest {
 
     @Test
     public void getById() {
-        stepService.getById(1L);
+        stepService.getById(4L);
     }
 }

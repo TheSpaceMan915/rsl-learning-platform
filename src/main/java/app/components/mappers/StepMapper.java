@@ -20,7 +20,7 @@ public class StepMapper {
         String description = attributes.description();
         String status = attributes.status().status();
         String type = attributes.type().type();
-        String content = attributes.content().get(0).text();
+        List<Object> content = attributes.content();
         return new GetStepResponse(id, title, description, status, type, content);
     }
 
