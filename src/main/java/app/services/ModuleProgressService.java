@@ -1,15 +1,22 @@
 package app.services;
 
+import app.components.mappers.ModuleProgressMapper;
 import app.domain.Module;
 import app.domain.Person;
 import app.domain.Status;
 import app.domain.progress.ModuleProgress;
 import app.domain.progress.Progress;
+import app.dtos.GetModuleProgressResponse;
 import app.repositories.ModuleRepository;
+import app.repositories.PersonRepository;
 import app.repositories.StatusRepository;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,6 +30,8 @@ import java.util.Optional;
 @Service
 public class ModuleProgressService implements Progressive {
 
+    private final ModuleProgressMapper moduleProgressMapper;
+    private final PersonRepository personRepo;
     private final ModuleRepository moduleRepo;
     private final StatusRepository statusRepo;
 
@@ -32,10 +41,29 @@ public class ModuleProgressService implements Progressive {
      * @param moduleRepo Repository for accessing modules
      * @param statusRepo Repository for accessing statuses
      */
-    public ModuleProgressService(ModuleRepository moduleRepo,
+    public ModuleProgressService(ModuleProgressMapper moduleProgressMapper,
+                                 PersonRepository personRepo,
+                                 ModuleRepository moduleRepo,
                                  StatusRepository statusRepo) {
+        this.moduleProgressMapper = moduleProgressMapper;
+        this.personRepo = personRepo;
         this.moduleRepo = moduleRepo;
         this.statusRepo = statusRepo;
+    }
+
+    @Transactional
+    public ResponseEntity<List<GetModuleProgressResponse>> getAll(Long personId) {
+        Optional<Person> optPerson = personRepo.findById(personId);
+        if (optPerson.isPresent()) {
+            List<GetModuleProgressResponse> moduleProgresses = optPerson
+                    .get()
+                    .getModuleProgresses()
+                    .stream()
+                    .map(moduleProgressMapper::toDto)
+                    .toList();
+            return new ResponseEntity<>(moduleProgresses, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 //  TODO: Update the docs

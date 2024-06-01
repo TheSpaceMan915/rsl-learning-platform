@@ -1,0 +1,3 @@
+### Get all the module progresses of a person
+GET http://localhost:8090/platform-api/module-progresses/1
+Accept: application/json
