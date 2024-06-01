@@ -1,0 +1,157 @@
+{
+  "12": {
+    "alpine": "3.20",
+    "bookworm": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "12.19-1.pgdg120+1"
+    },
+    "bullseye": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "12.19-1.pgdg110+1"
+    },
+    "debian": "bookworm",
+    "major": 12,
+    "sha256": "617e3de52c22e822f4f57d01d5b2240503e198a9eccaf598a851109bd18e6fbb",
+    "variants": [
+      "bookworm",
+      "bullseye",
+      "alpine3.20",
+      "alpine3.19"
+    ],
+    "version": "12.19"
+  },
+  "13": {
+    "alpine": "3.20",
+    "bookworm": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "13.15-1.pgdg120+1"
+    },
+    "bullseye": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "13.15-1.pgdg110+1"
+    },
+    "debian": "bookworm",
+    "major": 13,
+    "sha256": "42edd415446d33b8c242be76d1ad057531b2264b2e86939339b7075c6e4ec925",
+    "variants": [
+      "bookworm",
+      "bullseye",
+      "alpine3.20",
+      "alpine3.19"
+    ],
+    "version": "13.15"
+  },
+  "14": {
+    "alpine": "3.20",
+    "bookworm": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "14.12-1.pgdg120+1"
+    },
+    "bullseye": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "14.12-1.pgdg110+1"
+    },
+    "debian": "bookworm",
+    "major": 14,
+    "sha256": "6118d08f9ddcc1bd83cf2b7cc74d3b583bdcec2f37e6245a8ac003b8faa80923",
+    "variants": [
+      "bookworm",
+      "bullseye",
+      "alpine3.20",
+      "alpine3.19"
+    ],
+    "version": "14.12"
+  },
+  "15": {
+    "alpine": "3.20",
+    "bookworm": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "15.7-1.pgdg120+1"
+    },
+    "bullseye": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "15.7-1.pgdg110+1"
+    },
+    "debian": "bookworm",
+    "major": 15,
+    "sha256": "a46fe49485ab6385e39dabbbb654f5d3049206f76cd695e224268729520998f7",
+    "variants": [
+      "bookworm",
+      "bullseye",
+      "alpine3.20",
+      "alpine3.19"
+    ],
+    "version": "15.7"
+  },
+  "16": {
+    "alpine": "3.20",
+    "bookworm": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "16.3-1.pgdg120+1"
+    },
+    "bullseye": {
+      "arches": [
+        "amd64",
+        "arm64",
+        "ppc64el",
+        "s390x"
+      ],
+      "version": "16.3-1.pgdg110+1"
+    },
+    "debian": "bookworm",
+    "major": 16,
+    "sha256": "331963d5d3dc4caf4216a049fa40b66d6bcb8c730615859411b9518764e60585",
+    "variants": [
+      "bookworm",
+      "bullseye",
+      "alpine3.20",
+      "alpine3.19"
+    ],
+    "version": "16.3"
+  }
+}
