@@ -19,13 +19,13 @@ public class ModuleProgressMapper {
 
     public GetModuleProgressResponse toDto(ModuleProgress moduleProgress) {
         Long moduleId = moduleProgress.getId().getModuleId();
-        String status = moduleProgress.getStatus().getName();
+//        String status = moduleProgress.getStatus().getName();
         List<GetLessonProgressResponse> lessonProgresses = moduleProgress
                 .getModule()
                 .getLessons()
                 .stream()
                 .map(lessonProgressMapper::toDto)
                 .toList();
-        return new GetModuleProgressResponse(moduleId, status, lessonProgresses);
+        return new GetModuleProgressResponse(moduleId,lessonProgresses);
     }
 }

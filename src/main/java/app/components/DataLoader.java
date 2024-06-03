@@ -59,14 +59,14 @@ public class DataLoader implements CommandLineRunner {
         module1 = saveModule(module1, lesson3, step3);
 
         ModuleProgress moduleProgress1 =
-                new ModuleProgress(person, module1, available);
+                new ModuleProgress(person, module1);
         moduleProgress1 = moduleProgressRepo.save(moduleProgress1);
         ModuleProgress moduleProgress2 =
-                new ModuleProgress(person, module2, available);
+                new ModuleProgress(person, module2);
         moduleProgress2 = moduleProgressRepo.save(moduleProgress2);
 
         LessonProgress lessonProgress =
-                new LessonProgress(person, lesson1, available);
+                new LessonProgress(person, lesson1);
         lessonProgress = lessonProgressRepo.save(lessonProgress);
 
         StepProgress stepProgress =

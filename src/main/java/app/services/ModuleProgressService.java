@@ -1,12 +1,15 @@
 package app.services;
 
 import app.components.mappers.ModuleProgressMapper;
+import app.domain.Lesson;
 import app.domain.Module;
 import app.domain.Person;
 import app.domain.Status;
+import app.domain.progress.LessonProgress;
 import app.domain.progress.ModuleProgress;
 import app.domain.progress.Progress;
 import app.dtos.GetModuleProgressResponse;
+import app.repositories.LessonProgressRepository;
 import app.repositories.ModuleRepository;
 import app.repositories.PersonRepository;
 import app.repositories.StatusRepository;
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +35,7 @@ import java.util.Optional;
 public class ModuleProgressService implements Progressive {
 
     private final ModuleProgressMapper moduleProgressMapper;
+    private final LessonProgressRepository lessonProgressRepo;
     private final PersonRepository personRepo;
     private final ModuleRepository moduleRepo;
     private final StatusRepository statusRepo;
@@ -42,10 +47,12 @@ public class ModuleProgressService implements Progressive {
      * @param statusRepo Repository for accessing statuses
      */
     public ModuleProgressService(ModuleProgressMapper moduleProgressMapper,
+                                 LessonProgressRepository lessonProgressRepo,
                                  PersonRepository personRepo,
                                  ModuleRepository moduleRepo,
                                  StatusRepository statusRepo) {
         this.moduleProgressMapper = moduleProgressMapper;
+        this.lessonProgressRepo = lessonProgressRepo;
         this.personRepo = personRepo;
         this.moduleRepo = moduleRepo;
         this.statusRepo = statusRepo;
@@ -66,6 +73,31 @@ public class ModuleProgressService implements Progressive {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @Transactional
+//    public ResponseEntity<List<GetModuleProgressResponse>> getAll(Long personId) {
+//        Optional<Person> optPerson = personRepo.findById(personId);
+//        if (optPerson.isPresent()) {
+//
+////                Get the Person's ModuleProgresses
+//            List<ModuleProgress> moduleProgresses = optPerson
+//                    .get()
+//                    .getModuleProgresses();
+//            List<GetModuleProgressResponse> responses = new ArrayList<>();
+//
+//            for (ModuleProgress moduleProgress : moduleProgresses) {
+//                Module module = moduleProgress.getModule();
+//                List<LessonProgress> lessonProgresses = new ArrayList<>();
+//
+////                Get the Person's LessonProgresses
+//                for (Lesson lesson : module.getLessons()) {
+//                    lessonProgresses.add()
+//                }
+//            }
+//            return new ResponseEntity<>(moduleProgresses, HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
 //  TODO: Update the docs
     /**
      * Creates module progress entries for all modules for a given person, setting initial statuses.
@@ -80,7 +112,7 @@ public class ModuleProgressService implements Progressive {
         Optional<Status> blocked = statusRepo.findByName("Blocked");
         if (blocked.isPresent()) {
             for (Module module : modules) {
-                person.addModuleProgress(new ModuleProgress(person, module, blocked.get()));
+                person.addModuleProgress(new ModuleProgress(person, module));
             }
         }
 //        TODO: Mark the first module as "Available"

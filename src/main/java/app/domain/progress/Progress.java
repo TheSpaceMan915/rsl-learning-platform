@@ -20,9 +20,9 @@ public abstract class Progress {
     @ToString.Exclude
     private Person person;
 
-    @MapsId("statusId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id", nullable = false)
-    @ToString.Exclude
-    private Status status;
+//    @MapsId("statusId")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "status_id", nullable = false)
+//    @ToString.Exclude
+//    private Status status;
 }

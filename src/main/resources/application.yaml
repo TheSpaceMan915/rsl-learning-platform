@@ -1,9 +1,9 @@
 # Environment variables
 env:
-  base-url: http://51.250.97.205
+  base-url: http://localhost
   api-path: platform-api
   strapi-port: 1337
-  frontend-port: 1400
+  frontend-port: 5173
 
 # Application properties
 server:

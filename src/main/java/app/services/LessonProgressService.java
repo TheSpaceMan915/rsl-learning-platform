@@ -52,7 +52,7 @@ public class LessonProgressService implements Progressive {
         Optional<Status> blocked = statusRepo.findByName("Blocked");
         if (blocked.isPresent()) {
             for (Lesson lesson : lessons) {
-                person.addLessonProgress(new LessonProgress(person, lesson, blocked.get()));
+                person.addLessonProgress(new LessonProgress(person, lesson));
             }
         }
         //  TODO: Mark the lessons from the first module as "Available"

@@ -44,7 +44,7 @@ public class ModuleProgressRepositoryTest {
         log.info("module: {}", module);
 
         ModuleProgress created =
-                new ModuleProgress(person, module, available);
+                new ModuleProgress(person, module);
         log.info("created: {}", created);
         log.info("----------------------- END CREATE -------------------------");
         return created;
@@ -91,7 +91,7 @@ public class ModuleProgressRepositoryTest {
         log.info("DELETING PERSON MODULE PROGRESS");
         Person person = personRepo.findById(1L).orElseThrow();
         ModuleProgress progress = progressRepo
-                        .findById(new ModuleProgressId(1L, 1L, 3L))
+                        .findById(new ModuleProgressId(1L, 1L))
                         .orElseThrow();
         log.info("person: {}", person);
         log.info("progress: {}", progress);

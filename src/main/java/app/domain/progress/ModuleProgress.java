@@ -26,9 +26,9 @@ public class ModuleProgress extends Progress {
     @ToString.Exclude
     private Module module;
 
-    public ModuleProgress(Person person, Module module, Status status) {
-        super(person, status);
-        this.id = new ModuleProgressId(person.getId(), module.getId(), status.getId());
+    public ModuleProgress(Person person, Module module) {
+        super(person);
+        this.id = new ModuleProgressId(person.getId(), module.getId());
         this.module = module;
     }
 }

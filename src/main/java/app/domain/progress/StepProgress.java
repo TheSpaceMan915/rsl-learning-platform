@@ -26,9 +26,16 @@ public class StepProgress extends Progress {
     @ToString.Exclude
     private Step step;
 
+//    @MapsId("statusId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id", nullable = false)
+    @ToString.Exclude
+    private Status status;
+
     public StepProgress(Person person, Step step, Status status) {
-        super(person, status);
-        this.id = new StepProgressId(person.getId(), step.getId(), status.getId());
+        super(person);
+        this.id = new StepProgressId(person.getId(), step.getId());
         this.step = step;
+        this.status = status;
     }
 }
