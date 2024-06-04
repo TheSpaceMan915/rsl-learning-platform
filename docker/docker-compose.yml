@@ -16,9 +16,6 @@ services:
 
   db:
     image: postgres:13.14-alpine3.19
-    build:
-      context: ../
-      dockerfile: docker/postgres_images/14/alpine3.19/Dockerfile
     container_name: rsl-learning-platform-db
     env_file:
       - db.env
