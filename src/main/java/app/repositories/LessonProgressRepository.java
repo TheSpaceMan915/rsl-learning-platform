@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface LessonProgressRepository extends CrudRepository<LessonProgress, LessonProgressId> {
 
-    Iterable<LessonProgress> findAllByPersonAndLesson(Person person, Lesson lesson);
+//    Iterable<LessonProgress> findAllByPersonAndLesson(Person person, Lesson lesson);
 }

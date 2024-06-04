@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.dtos.GetModuleProgressResponse;
+import app.dtos.shared.Data;
 import app.services.ModuleProgressService;
 
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ModuleProgressController {
     }
 
     @GetMapping(path = "/{personId}")
-    public ResponseEntity<List<GetModuleProgressResponse>> getAll(@PathVariable("personId") Long personId) {
-        return moduleProgressService.getAll(personId);
+    public ResponseEntity<Data<List<GetModuleProgressResponse>>> getAll(@PathVariable("personId") Long personId) {
+        return moduleProgressService.getAllStudied(personId);
     }
 }

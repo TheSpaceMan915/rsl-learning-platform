@@ -18,7 +18,7 @@ public class PersonService {
 
     private final PersonRepository personRepo;
     private final PersonMapper personMapper;
-    private final AuthenticationService authenticationService;
+    private final AuthorisationService authorisationService;
     private final ModuleProgressService moduleProgressService;
     private final LessonProgressService lessonProgressService;
     private final StepProgressService stepProgressService;
@@ -28,20 +28,20 @@ public class PersonService {
      *
      * @param personRepo Repository for person data access
      * @param personMapper Mapper for converting DTOs to entity objects
-     * @param authenticationService Service for authenticating users via Yandex ID
+     * @param authorisationService Service for authenticating users via Yandex ID
      * @param moduleProgressService Service for managing module progress
      * @param lessonProgressService Service for managing lesson progress
      * @param stepProgressService Service for managing step progress
      */
     public PersonService(PersonRepository personRepo,
                          PersonMapper personMapper,
-                         AuthenticationService authenticationService,
+                         AuthorisationService authorisationService,
                          ModuleProgressService moduleProgressService,
                          LessonProgressService lessonProgressService,
                          StepProgressService stepProgressService) {
         this.personRepo = personRepo;
         this.personMapper = personMapper;
-        this.authenticationService = authenticationService;
+        this.authorisationService = authorisationService;
         this.moduleProgressService = moduleProgressService;
         this.lessonProgressService = lessonProgressService;
         this.stepProgressService = stepProgressService;
@@ -54,7 +54,7 @@ public class PersonService {
      * @return ResponseEntity with person data and HTTP status
      */
     public ResponseEntity<GetPersonRequest> getByToken(String oauthToken) {
-        GetPersonRequest dto = authenticationService.authenticate(oauthToken);
+        GetPersonRequest dto = authorisationService.authorise(oauthToken);
 
 //        TODO: Should move it to a POST endpoint that will create a user
 //        Person person = personMapper.toEntity(dto);
@@ -72,18 +72,5 @@ public class PersonService {
      */
     private boolean exist(Person person) {
         return personRepo.existsById(person.getId());
-    }
-
-    /**
-     * Creates a new person and initialises their progress for modules, lessons, and steps.
-     *
-     * @param person Person to create and initialise progress for
-     * @return the newly created person
-     */
-    private Person create(Person person) {
-        moduleProgressService.create(person);
-        lessonProgressService.create(person);
-        stepProgressService.create(person);
-        return personRepo.save(person);
     }
 }

@@ -21,6 +21,6 @@ public class StepProgressId implements Serializable {
     @Column(name = "step_id", nullable = false)
     private Long stepId;
 
-//    @Column(name = "status_id", nullable = false)
-//    private Long statusId;
+    @Column(name = "status_id", nullable = false)
+    private Long statusId;
 }

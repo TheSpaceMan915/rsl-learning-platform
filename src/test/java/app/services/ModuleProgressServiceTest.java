@@ -10,8 +10,9 @@ public class ModuleProgressServiceTest {
     @Autowired
     private ModuleProgressService moduleProgressService;
 
+//    TODO: Run the test and check that getAllStudied StepProgresses works well
     @Test
-    public void getAll() {
-        moduleProgressService.getAll(1L);
+    public void getAllStudied() {
+        moduleProgressService.getAllStudied(1L);
     }
 }

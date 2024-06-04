@@ -11,7 +11,7 @@ public class StepProgressServiceTest {
     private StepProgressService stepProgressService;
 
     @Test
-    public void postStepProgress() {
-        stepProgressService.postStepProgress(1L, 32L, 53L, 34L);
+    public void postById() {
+        stepProgressService.postById(1L, 3532L, 53L, 34L);
     }
 }
