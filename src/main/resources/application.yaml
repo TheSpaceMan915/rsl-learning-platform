@@ -1,9 +1,13 @@
 # Environment variables
 env:
-  base-url: http://localhost
+  dev-url: http://localhost
+  product-url: http://51.250.97.205
   api-path: platform-api
   strapi-port: 1337
-  frontend-port: 5173
+  dev-port: 5173
+  product-port: 3000
+#  nginx-port1: 80
+#  nginx-port2: 443
 
 # Application properties
 server:

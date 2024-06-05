@@ -45,7 +45,7 @@ public class DataLoader implements CommandLineRunner {
 //        Status blocked = statusRepo.save(new Status("Blocked"));
 //        Status inProgress = statusRepo.save(new Status("In progress"));
 
-        Module module1 = new Module(3522L);
+/*        Module module1 = new Module(3522L);
         Module module2 = new Module(3532L);
         Lesson lesson1 = new Lesson(7324L);
         Lesson lesson2 = new Lesson(5324L);
@@ -68,9 +68,9 @@ public class DataLoader implements CommandLineRunner {
                 new ModuleProgress(person, module2);
         moduleProgress2 = moduleProgressRepo.save(moduleProgress2);
 
-//        LessonProgress lessonProgress1 =
-//                new LessonProgress(person, lesson1);
-//        lessonProgress1 = lessonProgressRepo.save(lessonProgress1);
+        LessonProgress lessonProgress1 =
+                new LessonProgress(person, lesson1);
+        lessonProgress1 = lessonProgressRepo.save(lessonProgress1);
 //        LessonProgress lessonProgress2 =
 //                new LessonProgress(person, lesson2);
 //        lessonProgress2 = lessonProgressRepo.save(lessonProgress2);
@@ -83,7 +83,7 @@ public class DataLoader implements CommandLineRunner {
 //        stepProgress2 = stepProgressRepo.save(stepProgress2);
 //        StepProgress stepProgress3 =
 //                new StepProgress(person, step3, available);
-//        stepProgress3 = stepProgressRepo.save(stepProgress3);
+//        stepProgress3 = stepProgressRepo.save(stepProgress3);*/
     }
 
     private Module saveModule(Module module, Lesson lesson, Step step) {

@@ -18,7 +18,7 @@ public class PersonController {
     }
 
     @GetMapping(path = "/{oauthToken}")
-    public ResponseEntity<GetPersonRequest> getByToken(@PathVariable("oauthToken") String oauthToken) {
+    public ResponseEntity<GetPersonRequest> getByToken(@PathVariable String oauthToken) {
         return personService.getByToken(oauthToken);
     }
 }

@@ -1,3 +1,3 @@
-### Get a step
+### Get a Step
 GET http://localhost:8090/platform-api/steps/1
 Accept: application/json

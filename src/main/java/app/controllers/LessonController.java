@@ -18,7 +18,7 @@ public class LessonController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<GetLessonResponse> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<GetLessonResponse> getById(@PathVariable Long id) {
         return lessonService.getById(id);
     }
 }

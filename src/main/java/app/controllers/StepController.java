@@ -18,7 +18,7 @@ public class StepController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<GetStepResponse> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<GetStepResponse> getById(@PathVariable Long id) {
         return stepService.getById(id);
     }
 }

@@ -24,7 +24,8 @@ public class ModuleProgressController {
     }
 
     @GetMapping(path = "/{personId}")
-    public ResponseEntity<Data<List<GetModuleProgressResponse>>> getAll(@PathVariable("personId") Long personId) {
+    public ResponseEntity<Data<List<GetModuleProgressResponse>>> getAll(
+            @PathVariable Long personId) {
         return moduleProgressService.getAllStudied(personId);
     }
 }
