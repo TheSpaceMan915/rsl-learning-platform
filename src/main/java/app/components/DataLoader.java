@@ -45,30 +45,48 @@ public class DataLoader implements CommandLineRunner {
 //        Status blocked = statusRepo.save(new Status("Blocked"));
 //        Status inProgress = statusRepo.save(new Status("In progress"));
 
-/*        Step step1 = new Step(5436L);
-        Lesson lesson1 = new Lesson(7324L);
-        Module module1 = new Module(3522L);
-        module1 = createModule(module1, lesson1, step1);
-
-        Step step2 = new Step(7365L);
-        Lesson lesson2 = new Lesson(5324L);
+/*        Module module1 = new Module(3522L);
         Module module2 = new Module(3532L);
-        module2 = createModule(module2, lesson2, step2);
+        Lesson lesson1 = new Lesson(7324L);
+        Lesson lesson2 = new Lesson(5324L);
+//        Lesson lesson3 = new Lesson(5325L);
+        Step step1 = new Step(5436L);
+        Step step2 = new Step(7365L);
+        Step step3 = new Step(7366L);
+//        Step step4 = new Step(3356L);
 
-        ModuleProgress moduleProgress =
-                new ModuleProgress(person, module1, finished);
-        moduleProgress = moduleProgressRepo.save(moduleProgress);
+//        lesson3.addStep(step4);
+//        module1.addLesson(lesson3);
+        module1 = saveModule(module1, lesson1, step1);
+        lesson2.addStep(step3);
+        module2 = saveModule(module2, lesson2, step2);
 
-        LessonProgress lessonProgress =
-                new LessonProgress(person, lesson1, finished);
-        lessonProgress = lessonProgressRepo.save(lessonProgress);
+        ModuleProgress moduleProgress1 =
+                new ModuleProgress(person, module1);
+        moduleProgress1 = moduleProgressRepo.save(moduleProgress1);
+        ModuleProgress moduleProgress2 =
+                new ModuleProgress(person, module2);
+        moduleProgress2 = moduleProgressRepo.save(moduleProgress2);
 
-        StepProgress stepProgress =
-                new StepProgress(person, step1, finished);
-        stepProgress = stepProgressRepo.save(stepProgress);*/
+        LessonProgress lessonProgress1 =
+                new LessonProgress(person, lesson1);
+        lessonProgress1 = lessonProgressRepo.save(lessonProgress1);
+//        LessonProgress lessonProgress2 =
+//                new LessonProgress(person, lesson2);
+//        lessonProgress2 = lessonProgressRepo.save(lessonProgress2);
+
+//        StepProgress stepProgress1 =
+//                new StepProgress(person, step1, available);
+//        stepProgress1 = stepProgressRepo.save(stepProgress1);
+//        StepProgress stepProgress2 =
+//                new StepProgress(person, step2, available);
+//        stepProgress2 = stepProgressRepo.save(stepProgress2);
+//        StepProgress stepProgress3 =
+//                new StepProgress(person, step3, available);
+//        stepProgress3 = stepProgressRepo.save(stepProgress3);*/
     }
 
-    private Module createModule(Module module, Lesson lesson, Step step) {
+    private Module saveModule(Module module, Lesson lesson, Step step) {
         lesson.addStep(step);
         module.addLesson(lesson);
         return moduleRepo.save(module);

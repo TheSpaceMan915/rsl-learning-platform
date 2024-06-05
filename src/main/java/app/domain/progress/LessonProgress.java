@@ -26,9 +26,9 @@ public class LessonProgress extends Progress {
     @ToString.Exclude
     private Lesson lesson;
 
-    public LessonProgress(Person person, Lesson lesson, Status status) {
-        super(person, status);
-        this.id = new LessonProgressId(person.getId(), lesson.getId(), status.getId());
+    public LessonProgress(Person person, Lesson lesson) {
+        super(person);
+        this.id = new LessonProgressId(person.getId(), lesson.getId());
         this.lesson = lesson;
     }
 }

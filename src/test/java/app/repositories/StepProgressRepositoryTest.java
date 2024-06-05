@@ -12,6 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -29,6 +33,8 @@ public class StepProgressRepositoryTest {
 
     @Autowired
     private StepProgressRepository progressRepo;
+    @Autowired
+    private StepProgressRepository stepProgressRepo;
 
     private StepProgress createProgress() {
         log.info("----------------------- CREATE -------------------------");
@@ -104,5 +110,15 @@ public class StepProgressRepositoryTest {
         Iterable<StepProgress> progresses =
                 person.getStepProgresses();
         assertThat(progresses).isEmpty();
+    }
+
+    @Test
+    public void findProgressesByPersonAndStep() {
+        log.info("---------------------- FIND ------------------------");
+        log.info("FINDING STEP PROGRESSES");
+        Person person = personRepo.findById(1L).orElseThrow();
+        Step step = stepRepo.findById(5436L).orElseThrow();
+        Optional<StepProgress> stepProgresses =
+                stepProgressRepo.findByIdPersonIdAndIdStepId(person.getId(), step.getId());
     }
 }

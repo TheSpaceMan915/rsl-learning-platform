@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 @Getter
 public class StrapiProperties {
 
-    private final String baseUrl;
+    private final String productUrl;
     private final String port;
     private final String url;
     private final String path;
 
-    private StrapiProperties(@Value("${env.base-url}") String baseUrl,
+    private StrapiProperties(@Value("${env.product-url}") String productUrl,
                              @Value("${env.strapi-port}") String port) {
-        this.baseUrl = baseUrl;
+        this.productUrl = productUrl;
         this.port = port;
-        this.url = baseUrl + ":" + port;
+        this.url = productUrl + ":" + port;
         this.path = "/api/";
     }
 }

@@ -1,7 +1,7 @@
-### Get all modules
+### Get all Modules
 GET http://localhost:8090/platform-api/modules
 Accept: application/json
 
-### Get a module
+### Get a Module
 GET http://localhost:8090/platform-api/modules/1
 Accept: application/json

@@ -11,20 +11,32 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final String baseUrl;
-    private final String frontendPort;
+    private final String devUrl;
+    private final String devPort;
+    private final String productUrl;
+    private final String productPort;
     private final String apiPath;
     private final String pathPattern;
-    private final String corsOrigin;
+    private final String cors1;
+    private final String cors2;
+    private final String cors3;
+    private final String cors4;
 
-    public WebConfig(@Value("${env.base-url}") String baseUrl,
-                     @Value("${env.frontend-port}") String frontendPort,
+    public WebConfig(@Value("${env.dev-url}") String devUrl,
+                     @Value("${env.dev-port}") String devPort,
+                     @Value("${env.product-url}") String productUrl,
+                     @Value("${env.product-port}") String productPort,
                      @Value("${env.api-path}") String apiPath) {
-        this.baseUrl = baseUrl;
-        this.frontendPort = frontendPort;
+        this.devUrl = devUrl;
+        this.devPort = devPort;
+        this.productUrl = productUrl;
+        this.productPort = productPort;
         this.apiPath = apiPath;
-        this.corsOrigin = baseUrl + ":" + frontendPort;
         this.pathPattern = apiPath + "/**";
+        this.cors1 = devUrl + ":" + devPort;
+        this.cors2 = productUrl + ":" + productPort;
+        this.cors3 = devUrl + ":" + productPort;
+        this.cors4 = productUrl + ":" + devPort;
     }
 
     @Override
@@ -36,7 +48,22 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping(pathPattern)
-                .allowedOrigins(corsOrigin)
+                .allowedOrigins(cors1)
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowCredentials(true);
+
+        registry.addMapping(pathPattern)
+                .allowedOrigins(cors2)
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowCredentials(true);
+
+        registry.addMapping(pathPattern)
+                .allowedOrigins(cors3)
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowCredentials(true);
+
+        registry.addMapping(pathPattern)
+                .allowedOrigins(cors4)
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(true);
     }

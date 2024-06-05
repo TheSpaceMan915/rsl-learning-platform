@@ -1,0 +1,26 @@
+### Post a StepProgress to a new Module
+POST http://localhost:8090/platform-api/step-progresses
+Content-Type: application/x-www-form-urlencoded
+
+personId = 1 &
+moduleId = 68 &
+lessonId = 90 &
+stepId = 85
+
+### Post a StepProgress to a new Lesson
+POST http://localhost:8090/platform-api/step-progresses
+Content-Type: application/x-www-form-urlencoded
+
+personId = 1 &
+moduleId = 3532 &
+lessonId = 53 &
+stepId = 34
+
+### Post a StepProgress to the old Lesson
+POST http://localhost:8090/platform-api/step-progresses
+Content-Type: application/x-www-form-urlencoded
+
+personId = 1 &
+moduleId = 3522 &
+lessonId = 7324 &
+stepId = 21

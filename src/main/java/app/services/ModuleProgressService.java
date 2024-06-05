@@ -1,30 +1,29 @@
 package app.services;
 
+import app.components.mappers.ModuleProgressMapper;
+import app.domain.*;
 import app.domain.Module;
-import app.domain.Person;
-import app.domain.Status;
 import app.domain.progress.ModuleProgress;
-import app.domain.progress.Progress;
-import app.repositories.ModuleRepository;
-import app.repositories.StatusRepository;
+import app.domain.progress.StepProgress;
+import app.dtos.GetModuleProgressResponse;
+import app.dtos.shared.Data;
+import app.repositories.*;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.*;
 
-/**
- * Service class for managing module progress within the educational platform.
- * This class handles the creation and updating of module progress entries for individuals.
- *
- * <p>Implements the {@link Progressive} interface, which defines standard operations for managing progress entries.
- *
- * @author  Nikita Kolychev
- */
 @Service
-public class ModuleProgressService implements Progressive {
+@Transactional
+public class ModuleProgressService {
 
-    private final ModuleRepository moduleRepo;
-    private final StatusRepository statusRepo;
+    private final LessonProgressService lessonProgressService;
+    private final ModuleProgressMapper moduleProgressMapper;
+    private final PersonRepository personRepo;
+    private final StepProgressService stepProgressService;
 
     /**
      * Constructs a ModuleProgressService with necessary repositories.
@@ -32,41 +31,38 @@ public class ModuleProgressService implements Progressive {
      * @param moduleRepo Repository for accessing modules
      * @param statusRepo Repository for accessing statuses
      */
-    public ModuleProgressService(ModuleRepository moduleRepo,
-                                 StatusRepository statusRepo) {
-        this.moduleRepo = moduleRepo;
-        this.statusRepo = statusRepo;
+    public ModuleProgressService(LessonProgressService lessonProgressService,
+                                 ModuleProgressMapper moduleProgressMapper,
+                                 PersonRepository personRepo,
+                                 StepProgressService stepProgressService) {
+        this.lessonProgressService = lessonProgressService;
+        this.moduleProgressMapper = moduleProgressMapper;
+        this.personRepo = personRepo;
+        this.stepProgressService = stepProgressService;
     }
 
-//  TODO: Update the docs
-    /**
-     * Creates module progress entries for all modules for a given person, setting initial statuses.
-     * All modules are initially marked with the status 'Blocked'.
-     * Plans to make the first module 'Available'.
-     *
-     * @param person The person for whom to create module progress entries.
-     */
-    @Override
-    public void create(Person person) {
-        Iterable<Module> modules = moduleRepo.findAll();
-        Optional<Status> blocked = statusRepo.findByName("Blocked");
-        if (blocked.isPresent()) {
-            for (Module module : modules) {
-                person.addModuleProgress(new ModuleProgress(person, module, blocked.get()));
+    public ResponseEntity<Data<List<GetModuleProgressResponse>>> getAllStudied(Long personId) {
+        Optional<Person> optPerson = personRepo.findById(personId);
+        if (optPerson.isPresent()) {
+            Person person = optPerson.get();
+            List<ModuleProgress> moduleProgresses = person.getModuleProgresses();
+            List<GetModuleProgressResponse> studiedModules = new ArrayList<>();
+            for (ModuleProgress moduleProgress : moduleProgresses) {
+                GetModuleProgressResponse studiedModule =
+                        getStudied(moduleProgress.getModule(), person);
+                studiedModules.add(studiedModule);
             }
+            Data<List<GetModuleProgressResponse>> data = new Data<>(studiedModules);
+            return new ResponseEntity<>(data, HttpStatus.OK);
         }
-//        TODO: Mark the first module as "Available"
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * Updates the status of a given module progress to a new status.
-     * This method is intended to modify the progress status of modules as they are completed or updated.
-     *
-     * @param progress The module progress whose status needs updating.
-     * @param status The new status to be applied.
-     */
-    @Override
-    public void updateStatus(Progress progress, Status status) {
-//        TODO: Finish the implementation
+    public GetModuleProgressResponse getStudied(Module module, Person person) {
+            List<Lesson> studiedLessons =
+                    lessonProgressService.getAllStudied(module, person);
+            Map<Lesson, List<StepProgress>> stepProgressMap =
+                    stepProgressService.getAllStudied(studiedLessons, person);
+        return moduleProgressMapper.toDto(module, stepProgressMap);
     }
 }

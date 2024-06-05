@@ -20,7 +20,7 @@ public class ModuleController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<GetModuleResponse> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<GetModuleResponse> getById(@PathVariable Long id) {
         return moduleService.getById(id);
     }
 
