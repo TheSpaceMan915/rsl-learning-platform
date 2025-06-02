@@ -54,3 +54,85 @@ go mod tidy
 # bash
 go run main.go
 ```
+
+---
+
+## 🧪 API Reference
+
+### POST `/recognitions`
+
+Submit a new gesture recognition result.
+
+#### Payload:
+
+```json
+{
+  "user_id": "user42",
+  "gesture": "hello",
+  "confidence": 0.95
+}
+```
+
+- `confidence`: float in range `[0.0 - 1.0]`
+
+#### Response: `201 Created`
+
+```json
+{
+  "id": "b312e3d4-...",
+  "user_id": "user42",
+  "gesture": "hello",
+  "confidence": 0.95,
+  "timestamp": "2025-04-15T15:00:00Z"
+}
+```
+
+---
+
+### GET `/recognitions/{userId}`
+
+Fetch all gesture results for a given user.
+
+#### Example:
+
+```bash
+
+curl http://localhost:8080/recognitions/user42
+```
+
+#### Response: `200 OK`
+
+```json
+[
+  {
+    "id": "...",
+    "user_id": "user42",
+    "gesture": "hello",
+    "confidence": 0.95,
+    "timestamp": "..."
+  }
+]
+```
+
+---
+
+## 🧪 Running Tests
+
+Unit tests are located in:
+- `internal/db/memory_test.go`
+- `internal/handler/recognition_test.go`
+
+Run all tests:
+```bash
+
+go test ./internal
+```
+
+---
+
+## 🔁 Next Steps
+
+- Swap in-memory storage with PostgreSQL or Redis.
+- Add webhook/event bus notification on new recognition.
+- Add Swagger/OpenAPI documentation.
+- Expose via gRPC for internal service mesh.
